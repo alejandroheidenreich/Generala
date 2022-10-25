@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-    public class Truco
+    public static class Juego
     {
+        
+
 
     }
 }
