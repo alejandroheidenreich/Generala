@@ -55,6 +55,7 @@ namespace Interfaz
                 this.rtb_LogPartida.Text = partida.LogPartida;
             }
 
+
             if (this.dtg_JuegoUno.InvokeRequired)
             {
                 this.dtg_JuegoUno.Invoke(new Action<Partida>(ActualizarDatosDePartida), partida);
