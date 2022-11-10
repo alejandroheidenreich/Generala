@@ -31,22 +31,27 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMenuPrincipal));
             this.btn_CrearMesa = new System.Windows.Forms.Button();
             this.btn_EntrarSala = new System.Windows.Forms.Button();
             this.rtb_LogPartida = new System.Windows.Forms.RichTextBox();
             this.dtg_Mesa = new System.Windows.Forms.DataGridView();
             this.dtg_JuegoUno = new System.Windows.Forms.DataGridView();
             this.dtg_JuegoDos = new System.Windows.Forms.DataGridView();
-            this.btn_SeleccioanrMesa = new System.Windows.Forms.Button();
             this.lbl_J1 = new System.Windows.Forms.Label();
             this.lbl_J2 = new System.Windows.Forms.Label();
             this.lbl_EncabezadoPuntajeJ1 = new System.Windows.Forms.Label();
             this.lbl_PuntajeJ1 = new System.Windows.Forms.Label();
             this.lbl_PuntajeJ2 = new System.Windows.Forms.Label();
             this.lbl_EncabezadoPuntajeJ2 = new System.Windows.Forms.Label();
+            this.btn_CancelarPartida = new System.Windows.Forms.Button();
+            this.pnl_Cargando = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_Mesa)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoUno)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoDos)).BeginInit();
+            this.pnl_Cargando.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_CrearMesa
@@ -61,13 +66,13 @@
             // 
             // btn_EntrarSala
             // 
-            this.btn_EntrarSala.Location = new System.Drawing.Point(222, 41);
+            this.btn_EntrarSala.Location = new System.Drawing.Point(236, 41);
             this.btn_EntrarSala.Name = "btn_EntrarSala";
             this.btn_EntrarSala.Size = new System.Drawing.Size(139, 75);
             this.btn_EntrarSala.TabIndex = 12;
             this.btn_EntrarSala.Text = "Iniciar Partida";
             this.btn_EntrarSala.UseVisualStyleBackColor = true;
-            this.btn_EntrarSala.Click += new System.EventHandler(this.btn_EntrarSala_Click);
+            this.btn_EntrarSala.Click += new System.EventHandler(this.btn_IniciarPartida_Click);
             // 
             // rtb_LogPartida
             // 
@@ -108,6 +113,7 @@
             this.dtg_Mesa.Size = new System.Drawing.Size(509, 424);
             this.dtg_Mesa.TabIndex = 18;
             this.dtg_Mesa.TabStop = false;
+            this.dtg_Mesa.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtg_Mesa_CellContentClick);
             // 
             // dtg_JuegoUno
             // 
@@ -169,16 +175,6 @@
             this.dtg_JuegoDos.TabIndex = 20;
             this.dtg_JuegoDos.TabStop = false;
             // 
-            // btn_SeleccioanrMesa
-            // 
-            this.btn_SeleccioanrMesa.Location = new System.Drawing.Point(419, 41);
-            this.btn_SeleccioanrMesa.Name = "btn_SeleccioanrMesa";
-            this.btn_SeleccioanrMesa.Size = new System.Drawing.Size(139, 75);
-            this.btn_SeleccioanrMesa.TabIndex = 21;
-            this.btn_SeleccioanrMesa.Text = "Seleccionar Mesa";
-            this.btn_SeleccioanrMesa.UseVisualStyleBackColor = true;
-            this.btn_SeleccioanrMesa.Click += new System.EventHandler(this.btn_SeleccioanrMesa_Click);
-            // 
             // lbl_J1
             // 
             this.lbl_J1.AutoSize = true;
@@ -239,18 +235,48 @@
             this.lbl_EncabezadoPuntajeJ2.TabIndex = 26;
             this.lbl_EncabezadoPuntajeJ2.Text = "Puntaje:";
             // 
+            // btn_CancelarPartida
+            // 
+            this.btn_CancelarPartida.Location = new System.Drawing.Point(419, 41);
+            this.btn_CancelarPartida.Name = "btn_CancelarPartida";
+            this.btn_CancelarPartida.Size = new System.Drawing.Size(139, 75);
+            this.btn_CancelarPartida.TabIndex = 28;
+            this.btn_CancelarPartida.Text = "Cancelar Partida";
+            this.btn_CancelarPartida.UseVisualStyleBackColor = true;
+            this.btn_CancelarPartida.Click += new System.EventHandler(this.btn_CancelarPartida_Click);
+            // 
+            // pnl_Cargando
+            // 
+            this.pnl_Cargando.Controls.Add(this.pictureBox1);
+            this.pnl_Cargando.Location = new System.Drawing.Point(575, 1);
+            this.pnl_Cargando.Name = "pnl_Cargando";
+            this.pnl_Cargando.Size = new System.Drawing.Size(789, 623);
+            this.pnl_Cargando.TabIndex = 29;
+            this.pnl_Cargando.Visible = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(204, 11);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(353, 477);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
             // FrmMenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1363, 622);
+            this.Controls.Add(this.pnl_Cargando);
+            this.Controls.Add(this.btn_CancelarPartida);
             this.Controls.Add(this.lbl_PuntajeJ2);
             this.Controls.Add(this.lbl_EncabezadoPuntajeJ2);
             this.Controls.Add(this.lbl_PuntajeJ1);
             this.Controls.Add(this.lbl_EncabezadoPuntajeJ1);
             this.Controls.Add(this.lbl_J2);
             this.Controls.Add(this.lbl_J1);
-            this.Controls.Add(this.btn_SeleccioanrMesa);
             this.Controls.Add(this.dtg_JuegoDos);
             this.Controls.Add(this.dtg_JuegoUno);
             this.Controls.Add(this.dtg_Mesa);
@@ -258,11 +284,14 @@
             this.Controls.Add(this.btn_CrearMesa);
             this.Controls.Add(this.rtb_LogPartida);
             this.Name = "FrmMenuPrincipal";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Generala";
             this.Load += new System.EventHandler(this.FrmMenuPrincipal_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtg_Mesa)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoUno)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoDos)).EndInit();
+            this.pnl_Cargando.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -275,12 +304,14 @@
         private System.Windows.Forms.DataGridView dtg_Mesa;
         private System.Windows.Forms.DataGridView dtg_JuegoUno;
         private System.Windows.Forms.DataGridView dtg_JuegoDos;
-        private System.Windows.Forms.Button btn_SeleccioanrMesa;
         private System.Windows.Forms.Label lbl_J1;
         private System.Windows.Forms.Label lbl_J2;
         private System.Windows.Forms.Label lbl_EncabezadoPuntajeJ1;
         private System.Windows.Forms.Label lbl_PuntajeJ1;
         private System.Windows.Forms.Label lbl_PuntajeJ2;
         private System.Windows.Forms.Label lbl_EncabezadoPuntajeJ2;
+        private System.Windows.Forms.Button btn_CancelarPartida;
+        private System.Windows.Forms.Panel pnl_Cargando;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

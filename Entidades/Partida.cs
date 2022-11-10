@@ -14,8 +14,9 @@ namespace Entidades
         private Juego juegoDos;
         private string logPartida;
         Task simulacion;
-        CancellationToken cancelacion;
-        public event Action<object,EventArgs> salidaLogs;
+        CancellationTokenSource cancelacion;
+        //public event Action<object,EventArgs> salidaLogs;
+        public event Action salidaLogs;
 
 
 
@@ -23,7 +24,8 @@ namespace Entidades
         {
             this.juegoUno = new Juego(jugadorUno);
             this.juegoDos = new Juego(jugadorDos);
-            this.cancelacion = new CancellationTokenSource().Token;
+            this.cancelacion = new CancellationTokenSource();
+
         }
 
         public Jugador J1
@@ -55,11 +57,16 @@ namespace Entidades
         {
             get => logPartida;
         }
+        //public CancellationTokenSource Cancelacion
+        //{
+        //    get => cancelacion;
+        //}
 
         public void IniciarPartida()
         {
             this.simulacion = Task.Run(SimularPartida);
         }
+
         public void SimularPartida()
         {
             while (true)
@@ -67,13 +74,13 @@ namespace Entidades
                 if ((!juegoUno.Completo && !juegoDos.Completo) || !this.cancelacion.IsCancellationRequested)
                 {
                     Turno(juegoUno);
+              
                     Turno(juegoDos);
-                    //Console.WriteLine(this.logPartida);
                 }
                 else
                 {
-                    //cancelacion.Cancel();
                     break;
+                    
                 }
             }
 
@@ -90,8 +97,9 @@ namespace Entidades
                 juego.Jugador.TirarDados();
                 tiradas++;
                 this.logPartida += $"{juego.Jugador.Nombre} tiro: {juego.Jugador.MostrarDados()}{Environment.NewLine}";
-                salidaLogs?.Invoke(this, new EventArgs());
+                salidaLogs?.Invoke();
                 Thread.Sleep(random.Next(2000, 3000));
+                //Task.Delay(random.Next(2000, 3000));
                 while (tiradas < 3)
                 {
                     juegoDelTurno = juego.TieneJuegoImportante();
@@ -100,7 +108,7 @@ namespace Entidades
                         juego.RealizarJuego(juegoDelTurno);
                         this.logPartida += $"{juego.Jugador.Nombre} realizo el juego: {juegoDelTurno} {Environment.NewLine}";
                         this.logPartida += $"{Environment.NewLine}";
-                        salidaLogs?.Invoke(this, new EventArgs());
+                        salidaLogs?.Invoke();
                         return;
                     }
                     else
@@ -108,8 +116,9 @@ namespace Entidades
                         juego.Jugador.TirarDados(ElegirDadoAleatorio(0), ElegirDadoAleatorio(1), ElegirDadoAleatorio(2), ElegirDadoAleatorio(3), ElegirDadoAleatorio(4));
                         this.logPartida += $"{juego.Jugador.Nombre} volvio a tirar: {juego.Jugador.MostrarDados()}{Environment.NewLine}";
                         tiradas++;
-                        salidaLogs?.Invoke(this, new EventArgs());
+                        salidaLogs?.Invoke();
                         Thread.Sleep(random.Next(2000, 5000));
+                        //Task.Delay(random.Next(2000, 3000));
                     }
                 }
                 juegoDelTurno = juego.TieneJuegoImportante();
@@ -117,24 +126,25 @@ namespace Entidades
                 {
                     juego.RealizarJuego(juegoDelTurno);
                     this.logPartida += $"{juego.Jugador.Nombre} realizo el juego: {juegoDelTurno} {Environment.NewLine}";
-                    salidaLogs?.Invoke(this, new EventArgs());
+                    salidaLogs?.Invoke();
                 }
                 juegoDelTurno = juego.ElegirMejorJugada();
                 if (!string.IsNullOrEmpty(juegoDelTurno))
                 {
                     juego.RealizarJuego(juegoDelTurno);
                     this.logPartida += $"{juego.Jugador.Nombre} realizo el juego: {juegoDelTurno}{Environment.NewLine}";
-                    salidaLogs?.Invoke(this, new EventArgs());
+                    salidaLogs?.Invoke();
                 }
                 else
                 {
                     juegoDelTurno = juego.TacharLaMasDificil();
                     this.logPartida += $"{juego.Jugador.Nombre} tacho el juego: {juegoDelTurno}{Environment.NewLine}";
-                    salidaLogs?.Invoke(this, new EventArgs());
+                    salidaLogs?.Invoke();
                 }
                 Thread.Sleep(2000);
+                //Task.Delay(random.Next(2000, 3000));
                 this.logPartida += $"{Environment.NewLine}";
-                salidaLogs?.Invoke(this, new EventArgs());
+                salidaLogs?.Invoke();
             }
         }
 

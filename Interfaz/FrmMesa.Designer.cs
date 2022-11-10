@@ -254,7 +254,7 @@
             this.pnl_FinPartida.Controls.Add(this.btn_ReiniciarPartida);
             this.pnl_FinPartida.Controls.Add(this.lbl_PuntajeFinal);
             this.pnl_FinPartida.Controls.Add(this.lbl_JugadorUno);
-            this.pnl_FinPartida.Location = new System.Drawing.Point(47, 82);
+            this.pnl_FinPartida.Location = new System.Drawing.Point(28, 12);
             this.pnl_FinPartida.Name = "pnl_FinPartida";
             this.pnl_FinPartida.Size = new System.Drawing.Size(1111, 609);
             this.pnl_FinPartida.TabIndex = 18;

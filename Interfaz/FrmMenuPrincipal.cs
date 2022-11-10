@@ -32,7 +32,8 @@ namespace Interfaz
 
                 Partida partida = new Partida(frmSeleccionJugador.J1, frmSeleccionJugador.J2);
                 this.mesas.Add(partida);
-                partida.salidaLogs += btn_SeleccioanrMesa_Click;
+                //partida.salidaLogs += btn_SeleccioanrMesa_Click;
+                partida.salidaLogs += SeleccionarMesa;
             }
 
             ActualizarListaDeMesas();
@@ -42,9 +43,11 @@ namespace Interfaz
         {
             BindingSource bsUno = new BindingSource();
             BindingSource bsDos = new BindingSource();
+
             if (this.rtb_LogPartida.InvokeRequired)
             {
                 this.rtb_LogPartida.Invoke(new Action<Partida>(ActualizarDatosDePartida), partida);
+                this.pnl_Cargando.Visible = false;
             }
             else
             {
@@ -99,6 +102,7 @@ namespace Interfaz
             {
                 this.lbl_PuntajeJ1.Text = partida.JuegoUno.PuntajeTotal.ToString();
             }
+
             if (this.lbl_PuntajeJ2.InvokeRequired)
             {
                 this.lbl_PuntajeJ2.Invoke(new Action<Partida>(ActualizarDatosDePartida), partida);
@@ -107,6 +111,9 @@ namespace Interfaz
             {
                 this.lbl_PuntajeJ2.Text = partida.JuegoDos.PuntajeTotal.ToString();
             }
+
+           
+            
 
         }
         private void ActualizarListaDeMesas()
@@ -124,19 +131,28 @@ namespace Interfaz
             return (Partida)dtg_Mesa.CurrentRow.DataBoundItem;
         }
 
-        private void btn_EntrarSala_Click(object sender, EventArgs e)
+        private void btn_IniciarPartida_Click(object sender, EventArgs e)
         {
 
             Partida partida = ObtenerMesaSeleccionado();
-            ActualizarDatosDePartida(partida);
+
             partida.IniciarPartida();
-            //FrmMesa mesa = new FrmMesa(partida);
-            //mesa.ShowDialog();
         }
 
-        private void btn_SeleccioanrMesa_Click(object sender, EventArgs e)
+        private void SeleccionarMesa()
         {
             ActualizarDatosDePartida(ObtenerMesaSeleccionado());
+        }
+
+        private void btn_CancelarPartida_Click(object sender, EventArgs e)
+        {
+            Partida partida = ObtenerMesaSeleccionado();
+            //partida.Cancelacion.Cancel();
+        }
+
+        private void dtg_Mesa_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            this.pnl_Cargando.Visible = true;
         }
     }
 }

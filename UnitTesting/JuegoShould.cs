@@ -15,7 +15,7 @@ namespace Generala.Test
         [TestInitialize]
         public void Initialize()
         {
-            jugador = new Jugador();
+            jugador = new Jugador("Ale");
             juego = new Juego(jugador);
         }
 

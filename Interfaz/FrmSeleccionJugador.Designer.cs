@@ -97,6 +97,7 @@
             this.Controls.Add(this.btn_Salir);
             this.Controls.Add(this.btn_Seleccionar);
             this.Name = "FrmSeleccionJugador";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmSeleccionJugador";
             this.Load += new System.EventHandler(this.FrmSeleccionJugador_Load);
             this.ResumeLayout(false);

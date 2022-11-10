@@ -346,69 +346,6 @@ namespace Entidades
             return true;
         }
 
-        public void SimularTurno()
-        {
-            int contadorTiradas = 3;
-            Random rnd = new Random();
-
-            do
-            {
-                jugador.TirarDados();
-                contadorTiradas--;
-                Thread.Sleep(rnd.Next(2000, 5000));
-                List<string> juegosParaElegir = EncontrarJuegos();
-                juegosParaElegir.Reverse();
-
-                foreach (string item in juegosParaElegir)
-                {
-                    if (!item.Contains("Al") && this.juegos[item] == EstadoJuego.Disponible)
-                    {
-                        RealizarJuego(item);
-                        AcumularPuntaje(item);
-                        contadorTiradas = 0;
-                    }
-                }
-                if (contadorTiradas == 0)
-                {
-                    int puntajeMayor = -1;
-                    int puntaje;
-                    int numeroJuego = -1;
-
-                    for (int i = 0; i < 7; i++)
-                    {
-                        puntaje = JugarAlNumero(jugador.Dados, i);
-                        if ((i == 0 || (puntajeMayor < puntaje)) && this.juegos[$"Al {i}"] == EstadoJuego.Disponible)
-                        {
-                            puntajeMayor = puntaje;
-                            numeroJuego = i;
-                        }
-                    }
-                    if (numeroJuego != -1)
-                    {
-                        RealizarJuego($"Al {numeroJuego}");
-                        AcumularPuntaje($"Al {numeroJuego}");
-                        Thread.Sleep(rnd.Next(2000, 5000));
-                    }
-                    else
-                    {
-                        bool tachado = true;
-                        List<KeyValuePair<string, EstadoJuego>> juegosParaTachar = this.juegos.ToList();
-                        KeyValuePair<string, EstadoJuego> juego;
-
-                        do
-                        {
-                            juego = juegosParaTachar[rnd.Next(0, juegosParaTachar.Count)];
-                            if (juego.Value == EstadoJuego.Disponible)
-                            {
-                                this.juegos[juego.Key] = EstadoJuego.Tachado;
-                                tachado = false;
-                                Thread.Sleep(rnd.Next(2000, 5000));
-                            }
-                        } while (tachado);
-                    }
-                }
-            } while (contadorTiradas != 0);
-        }
 
         public override string ToString()
         {
