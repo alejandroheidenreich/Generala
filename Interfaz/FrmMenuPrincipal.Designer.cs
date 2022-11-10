@@ -45,18 +45,18 @@
             this.lbl_PuntajeJ2 = new System.Windows.Forms.Label();
             this.lbl_EncabezadoPuntajeJ2 = new System.Windows.Forms.Label();
             this.btn_CancelarPartida = new System.Windows.Forms.Button();
-            this.pnl_Cargando = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.lbl_MensajeDeSala = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_Mesa)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoUno)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoDos)).BeginInit();
-            this.pnl_Cargando.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_CrearMesa
             // 
-            this.btn_CrearMesa.Location = new System.Drawing.Point(49, 41);
+            this.btn_CrearMesa.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_CrearMesa.Location = new System.Drawing.Point(12, 518);
             this.btn_CrearMesa.Name = "btn_CrearMesa";
             this.btn_CrearMesa.Size = new System.Drawing.Size(139, 75);
             this.btn_CrearMesa.TabIndex = 2;
@@ -66,7 +66,8 @@
             // 
             // btn_EntrarSala
             // 
-            this.btn_EntrarSala.Location = new System.Drawing.Point(236, 41);
+            this.btn_EntrarSala.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_EntrarSala.Location = new System.Drawing.Point(157, 518);
             this.btn_EntrarSala.Name = "btn_EntrarSala";
             this.btn_EntrarSala.Size = new System.Drawing.Size(139, 75);
             this.btn_EntrarSala.TabIndex = 12;
@@ -76,10 +77,13 @@
             // 
             // rtb_LogPartida
             // 
-            this.rtb_LogPartida.Location = new System.Drawing.Point(795, 41);
+            this.rtb_LogPartida.BackColor = System.Drawing.Color.DarkGreen;
+            this.rtb_LogPartida.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtb_LogPartida.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.rtb_LogPartida.Location = new System.Drawing.Point(851, 129);
             this.rtb_LogPartida.Name = "rtb_LogPartida";
             this.rtb_LogPartida.ReadOnly = true;
-            this.rtb_LogPartida.Size = new System.Drawing.Size(347, 556);
+            this.rtb_LogPartida.Size = new System.Drawing.Size(227, 368);
             this.rtb_LogPartida.TabIndex = 17;
             this.rtb_LogPartida.TabStop = false;
             this.rtb_LogPartida.Text = "";
@@ -103,16 +107,17 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dtg_Mesa.DefaultCellStyle = dataGridViewCellStyle1;
             this.dtg_Mesa.GridColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.dtg_Mesa.Location = new System.Drawing.Point(49, 147);
+            this.dtg_Mesa.Location = new System.Drawing.Point(31, 12);
             this.dtg_Mesa.MultiSelect = false;
             this.dtg_Mesa.Name = "dtg_Mesa";
             this.dtg_Mesa.ReadOnly = true;
             this.dtg_Mesa.RowHeadersVisible = false;
             this.dtg_Mesa.RowTemplate.Height = 25;
             this.dtg_Mesa.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtg_Mesa.Size = new System.Drawing.Size(509, 424);
+            this.dtg_Mesa.Size = new System.Drawing.Size(509, 360);
             this.dtg_Mesa.TabIndex = 18;
             this.dtg_Mesa.TabStop = false;
+            this.dtg_Mesa.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtg_Mesa_CellClick);
             this.dtg_Mesa.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtg_Mesa_CellContentClick);
             // 
             // dtg_JuegoUno
@@ -164,7 +169,7 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dtg_JuegoDos.DefaultCellStyle = dataGridViewCellStyle3;
             this.dtg_JuegoDos.GridColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.dtg_JuegoDos.Location = new System.Drawing.Point(1164, 110);
+            this.dtg_JuegoDos.Location = new System.Drawing.Point(1144, 110);
             this.dtg_JuegoDos.MultiSelect = false;
             this.dtg_JuegoDos.Name = "dtg_JuegoDos";
             this.dtg_JuegoDos.ReadOnly = true;
@@ -178,8 +183,10 @@
             // lbl_J1
             // 
             this.lbl_J1.AutoSize = true;
+            this.lbl_J1.BackColor = System.Drawing.Color.Transparent;
             this.lbl_J1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lbl_J1.Location = new System.Drawing.Point(626, 57);
+            this.lbl_J1.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lbl_J1.Location = new System.Drawing.Point(632, 73);
             this.lbl_J1.Name = "lbl_J1";
             this.lbl_J1.Size = new System.Drawing.Size(89, 20);
             this.lbl_J1.TabIndex = 22;
@@ -188,8 +195,10 @@
             // lbl_J2
             // 
             this.lbl_J2.AutoSize = true;
+            this.lbl_J2.BackColor = System.Drawing.Color.Transparent;
             this.lbl_J2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lbl_J2.Location = new System.Drawing.Point(1215, 57);
+            this.lbl_J2.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lbl_J2.Location = new System.Drawing.Point(1189, 73);
             this.lbl_J2.Name = "lbl_J2";
             this.lbl_J2.Size = new System.Drawing.Size(89, 20);
             this.lbl_J2.TabIndex = 23;
@@ -198,8 +207,10 @@
             // lbl_EncabezadoPuntajeJ1
             // 
             this.lbl_EncabezadoPuntajeJ1.AutoSize = true;
+            this.lbl_EncabezadoPuntajeJ1.BackColor = System.Drawing.Color.Transparent;
             this.lbl_EncabezadoPuntajeJ1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lbl_EncabezadoPuntajeJ1.Location = new System.Drawing.Point(586, 387);
+            this.lbl_EncabezadoPuntajeJ1.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lbl_EncabezadoPuntajeJ1.Location = new System.Drawing.Point(626, 387);
             this.lbl_EncabezadoPuntajeJ1.Name = "lbl_EncabezadoPuntajeJ1";
             this.lbl_EncabezadoPuntajeJ1.Size = new System.Drawing.Size(63, 16);
             this.lbl_EncabezadoPuntajeJ1.TabIndex = 24;
@@ -208,8 +219,10 @@
             // lbl_PuntajeJ1
             // 
             this.lbl_PuntajeJ1.AutoSize = true;
+            this.lbl_PuntajeJ1.BackColor = System.Drawing.Color.Transparent;
             this.lbl_PuntajeJ1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lbl_PuntajeJ1.Location = new System.Drawing.Point(655, 387);
+            this.lbl_PuntajeJ1.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lbl_PuntajeJ1.Location = new System.Drawing.Point(695, 387);
             this.lbl_PuntajeJ1.Name = "lbl_PuntajeJ1";
             this.lbl_PuntajeJ1.Size = new System.Drawing.Size(15, 16);
             this.lbl_PuntajeJ1.TabIndex = 25;
@@ -218,8 +231,10 @@
             // lbl_PuntajeJ2
             // 
             this.lbl_PuntajeJ2.AutoSize = true;
+            this.lbl_PuntajeJ2.BackColor = System.Drawing.Color.Transparent;
             this.lbl_PuntajeJ2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lbl_PuntajeJ2.Location = new System.Drawing.Point(1233, 387);
+            this.lbl_PuntajeJ2.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lbl_PuntajeJ2.Location = new System.Drawing.Point(1263, 387);
             this.lbl_PuntajeJ2.Name = "lbl_PuntajeJ2";
             this.lbl_PuntajeJ2.Size = new System.Drawing.Size(15, 16);
             this.lbl_PuntajeJ2.TabIndex = 27;
@@ -228,8 +243,10 @@
             // lbl_EncabezadoPuntajeJ2
             // 
             this.lbl_EncabezadoPuntajeJ2.AutoSize = true;
+            this.lbl_EncabezadoPuntajeJ2.BackColor = System.Drawing.Color.Transparent;
             this.lbl_EncabezadoPuntajeJ2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lbl_EncabezadoPuntajeJ2.Location = new System.Drawing.Point(1164, 387);
+            this.lbl_EncabezadoPuntajeJ2.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lbl_EncabezadoPuntajeJ2.Location = new System.Drawing.Point(1194, 387);
             this.lbl_EncabezadoPuntajeJ2.Name = "lbl_EncabezadoPuntajeJ2";
             this.lbl_EncabezadoPuntajeJ2.Size = new System.Drawing.Size(63, 16);
             this.lbl_EncabezadoPuntajeJ2.TabIndex = 26;
@@ -237,7 +254,8 @@
             // 
             // btn_CancelarPartida
             // 
-            this.btn_CancelarPartida.Location = new System.Drawing.Point(419, 41);
+            this.btn_CancelarPartida.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_CancelarPartida.Location = new System.Drawing.Point(302, 518);
             this.btn_CancelarPartida.Name = "btn_CancelarPartida";
             this.btn_CancelarPartida.Size = new System.Drawing.Size(139, 75);
             this.btn_CancelarPartida.TabIndex = 28;
@@ -245,31 +263,39 @@
             this.btn_CancelarPartida.UseVisualStyleBackColor = true;
             this.btn_CancelarPartida.Click += new System.EventHandler(this.btn_CancelarPartida_Click);
             // 
-            // pnl_Cargando
+            // pictureBox2
             // 
-            this.pnl_Cargando.Controls.Add(this.pictureBox1);
-            this.pnl_Cargando.Location = new System.Drawing.Point(575, 1);
-            this.pnl_Cargando.Name = "pnl_Cargando";
-            this.pnl_Cargando.Size = new System.Drawing.Size(789, 623);
-            this.pnl_Cargando.TabIndex = 29;
-            this.pnl_Cargando.Visible = false;
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(788, 12);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(350, 595);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 29;
+            this.pictureBox2.TabStop = false;
             // 
-            // pictureBox1
+            // lbl_MensajeDeSala
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(204, 11);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(353, 477);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.lbl_MensajeDeSala.AutoSize = true;
+            this.lbl_MensajeDeSala.BackColor = System.Drawing.Color.DarkGreen;
+            this.lbl_MensajeDeSala.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lbl_MensajeDeSala.ForeColor = System.Drawing.Color.IndianRed;
+            this.lbl_MensajeDeSala.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbl_MensajeDeSala.Location = new System.Drawing.Point(893, 99);
+            this.lbl_MensajeDeSala.Name = "lbl_MensajeDeSala";
+            this.lbl_MensajeDeSala.Size = new System.Drawing.Size(106, 16);
+            this.lbl_MensajeDeSala.TabIndex = 30;
+            this.lbl_MensajeDeSala.Text = "Mensaje de Sala";
+            this.lbl_MensajeDeSala.Visible = false;
             // 
             // FrmMenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1363, 622);
-            this.Controls.Add(this.pnl_Cargando);
+            this.Controls.Add(this.lbl_MensajeDeSala);
             this.Controls.Add(this.btn_CancelarPartida);
             this.Controls.Add(this.lbl_PuntajeJ2);
             this.Controls.Add(this.lbl_EncabezadoPuntajeJ2);
@@ -283,6 +309,7 @@
             this.Controls.Add(this.btn_EntrarSala);
             this.Controls.Add(this.btn_CrearMesa);
             this.Controls.Add(this.rtb_LogPartida);
+            this.Controls.Add(this.pictureBox2);
             this.Name = "FrmMenuPrincipal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Generala";
@@ -290,8 +317,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dtg_Mesa)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoUno)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoDos)).EndInit();
-            this.pnl_Cargando.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -313,5 +339,7 @@
         private System.Windows.Forms.Button btn_CancelarPartida;
         private System.Windows.Forms.Panel pnl_Cargando;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label lbl_MensajeDeSala;
     }
 }

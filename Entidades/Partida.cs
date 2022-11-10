@@ -18,14 +18,11 @@ namespace Entidades
         //public event Action<object,EventArgs> salidaLogs;
         public event Action salidaLogs;
 
-
-
         public Partida(Jugador jugadorUno, Jugador jugadorDos)
         {
             this.juegoUno = new Juego(jugadorUno);
             this.juegoDos = new Juego(jugadorDos);
             this.cancelacion = new CancellationTokenSource();
-
         }
 
         public Jugador J1
@@ -57,33 +54,32 @@ namespace Entidades
         {
             get => logPartida;
         }
-        //public CancellationTokenSource Cancelacion
-        //{
-        //    get => cancelacion;
-        //}
+        public CancellationTokenSource Cancelacion
+        {
+            get => cancelacion;
+        }
 
         public void IniciarPartida()
         {
-            this.simulacion = Task.Run(SimularPartida);
+            this.simulacion = Task.Run(() =>SimularPartida(this.cancelacion.Token));
         }
 
-        public void SimularPartida()
+        public void SimularPartida(CancellationToken cancellation)
         {
             while (true)
             {
-                if ((!juegoUno.Completo && !juegoDos.Completo) || !this.cancelacion.IsCancellationRequested)
+                if(!cancellation.IsCancellationRequested && (!juegoUno.Completo && !juegoDos.Completo)) 
                 {
                     Turno(juegoUno);
-              
                     Turno(juegoDos);
                 }
                 else
                 {
+                    this.logPartida += $"Partida Finalizada";
+                    salidaLogs?.Invoke();
                     break;
-                    
                 }
             }
-
         }
 
         public void Turno(Juego juego)
@@ -99,7 +95,6 @@ namespace Entidades
                 this.logPartida += $"{juego.Jugador.Nombre} tiro: {juego.Jugador.MostrarDados()}{Environment.NewLine}";
                 salidaLogs?.Invoke();
                 Thread.Sleep(random.Next(2000, 3000));
-                //Task.Delay(random.Next(2000, 3000));
                 while (tiradas < 3)
                 {
                     juegoDelTurno = juego.TieneJuegoImportante();
@@ -118,7 +113,6 @@ namespace Entidades
                         tiradas++;
                         salidaLogs?.Invoke();
                         Thread.Sleep(random.Next(2000, 5000));
-                        //Task.Delay(random.Next(2000, 3000));
                     }
                 }
                 juegoDelTurno = juego.TieneJuegoImportante();
@@ -126,7 +120,9 @@ namespace Entidades
                 {
                     juego.RealizarJuego(juegoDelTurno);
                     this.logPartida += $"{juego.Jugador.Nombre} realizo el juego: {juegoDelTurno} {Environment.NewLine}";
+                    this.logPartida += $"{Environment.NewLine}";
                     salidaLogs?.Invoke();
+                    return;
                 }
                 juegoDelTurno = juego.ElegirMejorJugada();
                 if (!string.IsNullOrEmpty(juegoDelTurno))
@@ -142,7 +138,6 @@ namespace Entidades
                     salidaLogs?.Invoke();
                 }
                 Thread.Sleep(2000);
-                //Task.Delay(random.Next(2000, 3000));
                 this.logPartida += $"{Environment.NewLine}";
                 salidaLogs?.Invoke();
             }

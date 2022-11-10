@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,7 +15,7 @@ namespace Interfaz
     public partial class FrmMenuPrincipal : Form
     {
         List<Partida> mesas;
-        Task logPartida;
+        //Task logPartida;
         public FrmMenuPrincipal()
         {
             InitializeComponent();
@@ -32,7 +33,6 @@ namespace Interfaz
 
                 Partida partida = new Partida(frmSeleccionJugador.J1, frmSeleccionJugador.J2);
                 this.mesas.Add(partida);
-                //partida.salidaLogs += btn_SeleccioanrMesa_Click;
                 partida.salidaLogs += SeleccionarMesa;
             }
 
@@ -44,77 +44,36 @@ namespace Interfaz
             BindingSource bsUno = new BindingSource();
             BindingSource bsDos = new BindingSource();
 
-            if (this.rtb_LogPartida.InvokeRequired)
+            if (this.InvokeRequired)
             {
-                this.rtb_LogPartida.Invoke(new Action<Partida>(ActualizarDatosDePartida), partida);
-                this.pnl_Cargando.Visible = false;
+                this.Invoke(new Action<Partida>(ActualizarDatosDePartida), partida);     
             }
             else
             {
                 this.rtb_LogPartida.Clear();
                 this.rtb_LogPartida.Text = partida.LogPartida;
-            }
-
-
-            if (this.dtg_JuegoUno.InvokeRequired)
-            {
-                this.dtg_JuegoUno.Invoke(new Action<Partida>(ActualizarDatosDePartida), partida);
-            }
-            else
-            {
+                this.rtb_LogPartida.SelectionStart = this.rtb_LogPartida.Text.Length;
+                this.rtb_LogPartida.ScrollToCaret();
                 this.dtg_JuegoUno.DataSource = null;
                 bsUno.DataSource = partida.JuegoUno.Juegos;
                 this.dtg_JuegoUno.DataSource = bsUno;
-            }
-
-            if (this.dtg_JuegoDos.InvokeRequired)
-            {
-                this.dtg_JuegoDos.Invoke(new Action<Partida>(ActualizarDatosDePartida), partida);
-            }
-            else
-            {
                 this.dtg_JuegoDos.DataSource = null;
                 bsDos.DataSource = partida.JuegoDos.Juegos;
                 this.dtg_JuegoDos.DataSource = bsDos;
-            }
-
-            if (this.lbl_J1.InvokeRequired)
-            {
-                this.lbl_J1.Invoke(new Action<Partida>(ActualizarDatosDePartida), partida);
-            }
-            else
-            {
                 this.lbl_J1.Text = partida.J1.Nombre;
-            }
-            if (this.lbl_J2.InvokeRequired)
-            {
-                this.lbl_J2.Invoke(new Action<Partida>(ActualizarDatosDePartida), partida);
-            }
-            else
-            {
                 this.lbl_J2.Text = partida.J2.Nombre;
-            }
-
-            if (this.lbl_PuntajeJ1.InvokeRequired)
-            {
-                this.lbl_PuntajeJ1.Invoke(new Action<Partida>(ActualizarDatosDePartida), partida);
-            }
-            else
-            {
                 this.lbl_PuntajeJ1.Text = partida.JuegoUno.PuntajeTotal.ToString();
-            }
-
-            if (this.lbl_PuntajeJ2.InvokeRequired)
-            {
-                this.lbl_PuntajeJ2.Invoke(new Action<Partida>(ActualizarDatosDePartida), partida);
-            }
-            else
-            {
                 this.lbl_PuntajeJ2.Text = partida.JuegoDos.PuntajeTotal.ToString();
+                if (partida.Cancelacion.IsCancellationRequested)
+                {
+                    this.lbl_MensajeDeSala.Text = $"La partida terminara {Environment.NewLine}al terminar este turno";
+                    this.lbl_MensajeDeSala.Visible = true;
+                }
+                else
+                {
+                    this.lbl_MensajeDeSala.Visible = false;
+                }
             }
-
-           
-            
 
         }
         private void ActualizarListaDeMesas()
@@ -124,6 +83,7 @@ namespace Interfaz
             this.dtg_Mesa.Columns["JuegoUno"].Visible = false;
             this.dtg_Mesa.Columns["JuegoDos"].Visible = false;
             this.dtg_Mesa.Columns["LogPartida"].Visible = false;
+            this.dtg_Mesa.Columns["Cancelacion"].Visible = false;
 
         }
 
@@ -148,12 +108,23 @@ namespace Interfaz
         private void btn_CancelarPartida_Click(object sender, EventArgs e)
         {
             Partida partida = ObtenerMesaSeleccionado();
-            //partida.Cancelacion.Cancel();
+            partida.Cancelacion.Cancel();
+            //this.lbl_MensajeDeSala.Text = "La partida terminara al terminar este turno";
+            //this.lbl_MensajeDeSala.Visible = true;
+
+
         }
 
         private void dtg_Mesa_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            this.pnl_Cargando.Visible = true;
+            //this.pnl_Cargando.Visible = true;
+            //SeleccionarMesa();
+        }
+
+        private void dtg_Mesa_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            SeleccionarMesa();
+            //this.lbl_MensajeDeSala.Visible = false;
         }
     }
 }

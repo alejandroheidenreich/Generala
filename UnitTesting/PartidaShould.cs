@@ -42,7 +42,7 @@ namespace Generala.Test
         public void SimularPartida_Test()
         {
 
-            this.partida.SimularPartida();
+            //this.partida.SimularPartida();
 
             Console.WriteLine(partida.LogPartida);
         }
