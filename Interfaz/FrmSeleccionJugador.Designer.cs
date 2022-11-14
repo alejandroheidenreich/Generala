@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSeleccionJugador));
             this.btn_Seleccionar = new System.Windows.Forms.Button();
             this.btn_Salir = new System.Windows.Forms.Button();
             this.cmb_JugadorUno = new System.Windows.Forms.ComboBox();
@@ -37,6 +38,7 @@
             // 
             // btn_Seleccionar
             // 
+            this.btn_Seleccionar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_Seleccionar.Location = new System.Drawing.Point(30, 198);
             this.btn_Seleccionar.Name = "btn_Seleccionar";
             this.btn_Seleccionar.Size = new System.Drawing.Size(164, 50);
@@ -47,6 +49,7 @@
             // 
             // btn_Salir
             // 
+            this.btn_Salir.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_Salir.Location = new System.Drawing.Point(213, 198);
             this.btn_Salir.Name = "btn_Salir";
             this.btn_Salir.Size = new System.Drawing.Size(164, 50);
@@ -76,10 +79,11 @@
             // lbl_mensajeDeError
             // 
             this.lbl_mensajeDeError.AutoSize = true;
+            this.lbl_mensajeDeError.BackColor = System.Drawing.Color.Transparent;
             this.lbl_mensajeDeError.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lbl_mensajeDeError.ForeColor = System.Drawing.Color.IndianRed;
             this.lbl_mensajeDeError.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lbl_mensajeDeError.Location = new System.Drawing.Point(141, 136);
+            this.lbl_mensajeDeError.Location = new System.Drawing.Point(85, 145);
             this.lbl_mensajeDeError.Name = "lbl_mensajeDeError";
             this.lbl_mensajeDeError.Size = new System.Drawing.Size(109, 16);
             this.lbl_mensajeDeError.TabIndex = 10;
@@ -90,12 +94,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(411, 288);
             this.Controls.Add(this.lbl_mensajeDeError);
             this.Controls.Add(this.cmb_JugadorDos);
             this.Controls.Add(this.cmb_JugadorUno);
             this.Controls.Add(this.btn_Salir);
             this.Controls.Add(this.btn_Seleccionar);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FrmSeleccionJugador";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmSeleccionJugador";

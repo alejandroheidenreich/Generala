@@ -11,17 +11,17 @@ using System.Xml.Serialization;
 
 namespace Entidades
 {
-    public class Serializadora <T>
+    public class SerializadorXML <T> : ISerializador<T> where T : new()
     {
         static string ruta;
 
-        static Serializadora()
+        static SerializadorXML()
         {
             ruta = Environment.CurrentDirectory;
             ruta += @"/Archivos";
         }
 
-        public static void EscribirXML(T info, string archivo)
+        public void Escribir(T info, string archivo)
         {
             string rutaCompleta = ruta + @"/" + archivo + ".xml";
 
@@ -37,7 +37,7 @@ namespace Entidades
             }
         }
 
-        public static T LeerXML(string archivo)
+        public T Leer(string archivo)
         {
             T info = default;
             string rutaCompleta = ruta + @"/" + archivo + ".xml";

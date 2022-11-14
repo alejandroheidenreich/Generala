@@ -13,16 +13,27 @@ namespace Entidades
         private Juego juegoUno;
         private Juego juegoDos;
         private string logPartida;
+        private bool inicioPartida;
+        private bool terminoPartida;
+        private Jugador ganador;
+        private int[] ultimaTirada;
         Task simulacion;
         CancellationTokenSource cancelacion;
-        //public event Action<object,EventArgs> salidaLogs;
         public event Action salidaLogs;
+        Action<string> anunciarGanador;
+        Action<int[]> mostrarDados;
 
-        public Partida(Jugador jugadorUno, Jugador jugadorDos)
+        public Partida(Jugador jugadorUno, Jugador jugadorDos, Action<string> anunciarGanador, Action<int[]> mostrarDados)
         {
             this.juegoUno = new Juego(jugadorUno);
             this.juegoDos = new Juego(jugadorDos);
             this.cancelacion = new CancellationTokenSource();
+            this.inicioPartida = false;
+            this.terminoPartida = false;
+            this.ganador = null;
+            this.anunciarGanador = anunciarGanador;
+            this.mostrarDados = mostrarDados;
+            this.ultimaTirada = new int[5] {-1,-1,-1,-1,-1 };
         }
 
         public Jugador J1
@@ -42,13 +53,11 @@ namespace Entidades
         public Juego JuegoUno
         {
             get => juegoUno;
-            set => juegoUno = value;
         }
 
         public Juego JuegoDos
         {
             get => juegoDos;
-            set => juegoDos = value;
         }
         public string LogPartida
         {
@@ -58,9 +67,30 @@ namespace Entidades
         {
             get => cancelacion;
         }
+        public bool InicioPartida
+        {
+            get => inicioPartida;
+            set => inicioPartida = value;
+        }
+        public bool TerminoPartida
+        {
+            get => terminoPartida;
+            set => terminoPartida = value;
+        }
+        public Jugador Ganador
+        {
+            get => ganador;
+            set => ganador = value;
+        }
+        public int[] UltimaTirada
+        {
+            get => ultimaTirada;
+            set => ultimaTirada = value;
+        }
 
         public void IniciarPartida()
         {
+            this.inicioPartida = true;
             this.simulacion = Task.Run(() =>SimularPartida(this.cancelacion.Token));
         }
 
@@ -80,6 +110,17 @@ namespace Entidades
                     break;
                 }
             }
+            this.terminoPartida = true;
+            /*if (!cancellation.IsCancellationRequested)
+            {*/
+                this.ganador = this.J2;
+                if (juegoUno.PuntajeTotal > juegoDos.PuntajeTotal)
+                    this.ganador = this.J1;
+
+                this.ganador.CantidadDeVictorias++;
+                anunciarGanador.Invoke(this.ganador.ToString());
+            //}
+
         }
 
         public void Turno(Juego juego)
@@ -91,6 +132,8 @@ namespace Entidades
             if (!juego.Completo)
             {
                 juego.Jugador.TirarDados();
+                this.ultimaTirada = juego.Jugador.Dados;
+                mostrarDados.Invoke(this.ultimaTirada);
                 tiradas++;
                 this.logPartida += $"{juego.Jugador.Nombre} tiro: {juego.Jugador.MostrarDados()}{Environment.NewLine}";
                 salidaLogs?.Invoke();
@@ -109,6 +152,8 @@ namespace Entidades
                     else
                     {
                         juego.Jugador.TirarDados(ElegirDadoAleatorio(0), ElegirDadoAleatorio(1), ElegirDadoAleatorio(2), ElegirDadoAleatorio(3), ElegirDadoAleatorio(4));
+                        this.ultimaTirada = juego.Jugador.Dados;
+                        mostrarDados.Invoke(this.ultimaTirada);
                         this.logPartida += $"{juego.Jugador.Nombre} volvio a tirar: {juego.Jugador.MostrarDados()}{Environment.NewLine}";
                         tiradas++;
                         salidaLogs?.Invoke();
@@ -165,6 +210,27 @@ namespace Entidades
         //    }
         //    return null;
         //}
+        public static bool VerificarJugadorDisponible(List<Partida> partidas, Jugador j)
+        {
+            //TODO: SACAR DE ACA
+            foreach (Partida item in partidas)
+            {
+                if (item==j)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool operator ==(Partida p, Jugador j)
+        {
+            return p.J1.Equals(j) || p.J2.Equals(j);
+        }
+        public static bool operator !=(Partida p, Jugador j)
+        {
+            return !(p == j);
+        }
 
         public override string ToString()
         {

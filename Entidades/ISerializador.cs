@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-    public class JugadorSimulado
+    public interface ISerializador<T>
     {
+        public void Escribir(T info, string archivo);
 
+        public T Leer(string archivo);
     }
 }

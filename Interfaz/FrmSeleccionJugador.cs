@@ -13,20 +13,22 @@ namespace Interfaz
 {
     public partial class FrmSeleccionJugador : Form
     {
-        private Jugador j1;
-        private Jugador j2;
-        public FrmSeleccionJugador()
+        private Jugador? j1;
+        private Jugador? j2;
+        private List<Partida> partidas;
+        public FrmSeleccionJugador(List<Partida> partidas)
         {
             InitializeComponent();
+            this.partidas = partidas;
         }
 
         public Jugador J1
         {
-            get => j1;
+            get => j1!;
         }
         public Jugador J2
         {
-            get => j2;
+            get => j2!;
         }
 
         private void FrmSeleccionJugador_Load(object sender, EventArgs e)
@@ -50,6 +52,11 @@ namespace Interfaz
             else if (cmb_JugadorUno.SelectedItem is null || cmb_JugadorDos.SelectedItem is null)
             {
                 MostrarError("El jugador no puede estar vacio");
+            }
+            else if (Partida.VerificarJugadorDisponible(this.partidas,(Jugador)cmb_JugadorUno.SelectedItem) ||
+                    Partida.VerificarJugadorDisponible(this.partidas,(Jugador)cmb_JugadorDos.SelectedItem))
+            {
+                MostrarError("Uno de los jugadores ya esta en una partida");
             }
             else
             {

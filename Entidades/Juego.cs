@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace Entidades
 {
@@ -45,6 +44,7 @@ namespace Entidades
                         return false;
                     }
                 }
+                this.jugador.PuntajeAcumulado += this.puntajeTotal;
                 return true;
             }
         }
@@ -171,7 +171,7 @@ namespace Entidades
             List<string> juegosDisponibles = EncontrarJuegos();
             foreach (string item in juegosDisponibles)
             {
-                if (this.juegos[item] == EstadoJuego.Disponible && 
+                if (this.juegos[item] == EstadoJuego.Disponible &&
                     (item == "Escalera" ||
                     item == "Full" ||
                     item == "Poker" ||
@@ -202,12 +202,12 @@ namespace Entidades
                     }
                 }
             }
-            return juego;     
+            return juego;
         }
 
         public string TacharLaMasDificil()
         {
-            KeyValuePair<string,EstadoJuego>[] arrayDeJuegos = new KeyValuePair<string,EstadoJuego>[10];
+            KeyValuePair<string, EstadoJuego>[] arrayDeJuegos = new KeyValuePair<string, EstadoJuego>[10];
 
             arrayDeJuegos = this.juegos.ToArray();
             Array.Reverse(arrayDeJuegos);

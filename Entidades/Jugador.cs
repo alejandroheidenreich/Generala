@@ -15,6 +15,7 @@ namespace Entidades
         private string nombre;
         private int puntajeAcumulado;
         private int cantidadDeVictorias;
+        //public event Action<int[]> informarDados;
        
 
         public Jugador(string nombre)
@@ -68,6 +69,7 @@ namespace Entidades
             {  
                 this.dados[i] = rnd.Next(1, 7);
             }
+            //informarDados.Invoke(this.dados);
         }
         public void TirarDados(int indexDado1, int indexDado2, int indexDado3, int indexDado4, int indexDado5)
         {
@@ -83,6 +85,7 @@ namespace Entidades
                     this.dados[i] = rnd.Next(1, 7);
                 }
             }
+            //informarDados.Invoke(this.dados);
         }
 
         public string MostrarDados()
