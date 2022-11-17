@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 
 namespace Entidades
 {
-    public class SerializadorXML <T> : ISerializador<T> where T : new()
+    public class SerializadorXML <T> : IPersistenciaDeDatos<T> where T : class, new()
     {
         static string ruta;
 

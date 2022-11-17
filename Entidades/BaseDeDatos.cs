@@ -8,15 +8,14 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-    public static class BaseDeDatos
+    public class BaseDeDatos
     {
-        static List<Partida> partidas;
 
         private static string connectionString;
         private static SqlConnection connection;
         private static SqlCommand command;
 
-        static BaseDeDatos()
+        public BaseDeDatos()
         {
             connectionString = @"Server =.; Database = Generala ;Trusted_Connection=True; ";
 
@@ -26,7 +25,36 @@ namespace Entidades
             command.Connection = connection;
             command.CommandType = CommandType.Text;
         }
-        public static List<Jugador> ObtenerJugadores()
+
+        public List<Usuario> ObtenerUsuarios()
+        {
+            List<Usuario> usuarios = new List<Usuario>();
+
+            connection.Open();
+
+            command.CommandText = "SELECT * FROM Usuarios";
+
+            SqlDataReader reader = command.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                string usuario = reader.GetString(1);
+                string contraseña = reader.GetString(2);
+
+                Usuario usuarioLeido = new Usuario(id, usuario, contraseña);
+                usuarios.Add(usuarioLeido);
+            }
+
+            if (connection.State == ConnectionState.Open)
+            {
+                connection.Close();
+            }
+
+            return usuarios;
+        }
+        public List<Jugador> ObtenerJugadores()
         {
             List<Jugador> jugadores = new List<Jugador>();
 
@@ -41,10 +69,8 @@ namespace Entidades
             {
                 int id = reader.GetInt32(0);
                 string nombre = reader.GetString(1);
-                int puntos = reader.GetInt32(2);
-                int victorias = reader.GetInt32(3);
 
-                Jugador jugadorLeido = new Jugador(id, nombre, puntos, victorias);
+                Jugador jugadorLeido = new Jugador(id, nombre);
                 jugadores.Add(jugadorLeido);
             }
 
@@ -55,23 +81,30 @@ namespace Entidades
 
             return jugadores;
         }
-
-        public static void AgregarJugador(Jugador jugador)
+        public void AgregarPartida(Partida partida)
         {
+            int idJuegoUno;
+            int idJuegoDos;
             try
             {
-                connection.Open();
+                idJuegoUno = AgregarJuego(partida.JuegoUno);
+                idJuegoDos = AgregarJuego(partida.JuegoDos);
 
-                command.CommandText = $"INSERT INTO Jugadores VALUES (@nombre, @puntos, @victorias) ";
-                command.Parameters.AddWithValue("@nombre", jugador.Nombre);
-                command.Parameters.AddWithValue("@puntos", jugador.PuntajeAcumulado);
-                command.Parameters.AddWithValue("@victorias", jugador.CantidadDeVictorias);
+                if (idJuegoUno != -1 && idJuegoDos != -1)
+                {
+                    connection.Open();
 
-                command.ExecuteNonQuery();
+                    command.CommandText = $"INSERT INTO Partida VALUES (@idJuegoUno, @idJuegoDos, @idGanador) ";
+                    command.Parameters.AddWithValue("@idJuegoUno", idJuegoUno);
+                    command.Parameters.AddWithValue("@idJuegoDos", idJuegoDos);
+                    command.Parameters.AddWithValue("@idGanador", partida.Ganador.Id);
+
+                    command.ExecuteNonQuery();
+                }
             }
             catch (Exception)
             {
-                throw;
+                throw new Exception("Error en Base de Datos");
             }
             finally
             {
@@ -82,23 +115,91 @@ namespace Entidades
                 }
             }
         }
-        public static void ModificarJugador(Jugador jugador)
+
+        private int AgregarJuego(Juego juego)
+        {
+            int id = -1;
+
+            try
+            {
+                connection.Open();
+                command.CommandText = $"INSERT INTO Juego VALUES (@idJugador, @puntaje, @escalera, @jfull, @poker, @generala) ";
+                command.Parameters.AddWithValue("@idJugador", juego.Jugador.Id);
+                command.Parameters.AddWithValue("@puntaje", juego.PuntajeTotal);
+                if (juego.Juegos["Escalera"] == EstadoJuego.Realizado)
+                {
+                    command.Parameters.AddWithValue("@escalera", 1);
+                }
+                else
+                {
+                    command.Parameters.AddWithValue("@escalera", 0);
+                }
+                if (juego.Juegos["Full"] == EstadoJuego.Realizado)
+                {
+                    command.Parameters.AddWithValue("@jfull", 1);
+                }
+                else
+                {
+                    command.Parameters.AddWithValue("@jfull", 0);
+                }
+                if (juego.Juegos["Poker"] == EstadoJuego.Realizado)
+                {
+                    command.Parameters.AddWithValue("@poker", 1);
+                }
+                else
+                {
+                    command.Parameters.AddWithValue("@poker", 0);
+                }
+                if (juego.Juegos["Generala"] == EstadoJuego.Realizado)
+                {
+                    command.Parameters.AddWithValue("@generala", 1);
+                }
+                else
+                {
+                    command.Parameters.AddWithValue("@generala", 0);
+                }
+
+                command.ExecuteNonQuery();
+
+                command.Parameters.Clear();
+
+                command.CommandText = "select MAX(id) as 'id' from Juego";
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    id = reader.GetInt32("id");
+                }
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error en Base de Datos");
+            }
+            finally
+            {
+                command.Parameters.Clear();
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+            return id;
+        }
+        public void AgregarJugador(Jugador jugador)
         {
             try
             {
                 connection.Open();
 
-                command.CommandText = "UPDATE Jugadores SET nombre = @nombre, puntos = @puntos, victorias = @victorias WHERE Id = @id";
+                command.CommandText = $"INSERT INTO Jugadores VALUES (@nombre) ";
                 command.Parameters.AddWithValue("@nombre", jugador.Nombre);
-                command.Parameters.AddWithValue("@dir", jugador.PuntajeAcumulado);
-                command.Parameters.AddWithValue("@dir", jugador.CantidadDeVictorias);
-                command.Parameters.AddWithValue("@id", jugador.Id);
 
                 command.ExecuteNonQuery();
             }
             catch (Exception)
             {
-                throw;
+                throw new Exception("Error en Base de Datos");
             }
             finally
             {
@@ -109,29 +210,29 @@ namespace Entidades
                 }
             }
         }
-        public static void BorrarJugador(Jugador jugador)
+
+        public Dictionary<string, int> InformarRankingVictorias()
         {
-            try
-            {
-                connection.Open();
+            Dictionary<string,int> ranking = new Dictionary<string, int>();
 
-                command.CommandText = "DELETE Jugadores WHERE Id = @id";
-                command.Parameters.AddWithValue("@id", jugador.Id);
+            connection.Open();
+            command.CommandText = "SELECT Jugadores.nombre, COUNT(Partida.idGanador) AS puntaje FROM Jugadores LEFT JOIN Partida ON (Jugadores.id = Partida.idGanador) GROUP BY Jugadores.nombre ORDER BY puntaje DESC";
 
-                command.ExecuteNonQuery();
-            }
-            catch (Exception)
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
             {
-                throw;
+                string nombre = reader.GetString(0);
+                int victorias = reader.GetInt32(1);
+                ranking[nombre] = victorias;
             }
-            finally
+
+            if (connection.State == ConnectionState.Open)
             {
-                command.Parameters.Clear();
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                }
+                connection.Close();
             }
+
+            return ranking;
         }
     }
 }

@@ -13,26 +13,22 @@ namespace Entidades
         private int id;
         private int[] dados;
         private string nombre;
-        private int puntajeAcumulado;
-        private int cantidadDeVictorias;
-        //public event Action<int[]> informarDados;
-       
 
+        public Jugador()
+        {
+        }
         public Jugador(string nombre)
         {
             dados = new int[5];
             this.nombre = nombre;
-            this.puntajeAcumulado = 0;
-            this.cantidadDeVictorias = 0;
 
             //TODO: nombre invitado;
         }
 
-        public Jugador(int id, string nombre, int puntos, int victorias):this(nombre)
+        public Jugador(int id, string nombre):this(nombre)
         {
             this.id = id;
-            this.puntajeAcumulado = puntos;
-            this.cantidadDeVictorias = victorias;
+
 
             //TODO: nombre invitado;
         }
@@ -45,16 +41,6 @@ namespace Entidades
         {
             get => nombre;
             set => nombre = value;
-        }
-        public int PuntajeAcumulado
-        {
-            get => puntajeAcumulado;
-            set => puntajeAcumulado = value;
-        }
-        public int CantidadDeVictorias
-        {
-            get => cantidadDeVictorias;
-            set => cantidadDeVictorias = value;
         }
         public int Id
         {
@@ -69,7 +55,6 @@ namespace Entidades
             {  
                 this.dados[i] = rnd.Next(1, 7);
             }
-            //informarDados.Invoke(this.dados);
         }
         public void TirarDados(int indexDado1, int indexDado2, int indexDado3, int indexDado4, int indexDado5)
         {
@@ -85,7 +70,6 @@ namespace Entidades
                     this.dados[i] = rnd.Next(1, 7);
                 }
             }
-            //informarDados.Invoke(this.dados);
         }
 
         public string MostrarDados()
@@ -113,11 +97,5 @@ namespace Entidades
         {
             return this.nombre;
         }
-
-
-        //public override string ToString()
-        //{
-        //    return "Jugador";
-        //}
     }
 }

@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace Entidades
 {
-    public class SerializadoraJSON<T> : ISerializador<T> where T : new()
+    public class SerializadoraJSON<T> : IPersistenciaDeDatos<T> where T : class
     {
         static string ruta;
 
@@ -18,8 +18,8 @@ namespace Entidades
 
         public void Escribir(T info, string archivo)
         {
-            string rutaCompleta = ruta + @"/" + archivo + ".xml";
-
+            string rutaCompleta = ruta + @"/" + archivo + ".json";
+            
             if (!Directory.Exists(ruta))
             {
                 Directory.CreateDirectory(ruta);
@@ -36,19 +36,17 @@ namespace Entidades
         public T Leer(string archivo)
         {
             T info = default;
-            string rutaCompleta = ruta + @"/" + archivo + ".xml";
+            string rutaCompleta = ruta + @"/" + archivo + ".json";
 
-            if (!Directory.Exists(ruta))
-            {
-                Directory.CreateDirectory(ruta);
-            }
             JsonSerializerOptions opciones = new JsonSerializerOptions()
             {
                 Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
             };
-            string json = File.ReadAllText(rutaCompleta);
-
-            info = JsonSerializer.Deserialize<T>(json, opciones);
+            if (File.Exists(rutaCompleta))
+            {  
+                string json = File.ReadAllText(rutaCompleta);
+                info = JsonSerializer.Deserialize<T>(json, opciones);
+            }
             
             return info;
         }

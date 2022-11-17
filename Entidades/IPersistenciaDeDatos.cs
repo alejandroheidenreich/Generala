@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-    public interface ISerializador<T>
+    public interface IPersistenciaDeDatos<T> where T : class
     {
         public void Escribir(T info, string archivo);
 

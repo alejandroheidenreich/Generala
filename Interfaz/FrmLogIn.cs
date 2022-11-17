@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entidades;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,11 @@ namespace Interfaz
 {
     public partial class FrmLogIn : Form
     {
+        Sistema sistema;
+        private bool mouseAccion;
+        private int mousePosX;
+        private int mousePosY;
+
         public FrmLogIn()
         {
             InitializeComponent();
@@ -19,7 +25,7 @@ namespace Interfaz
 
         private void FrmLogIn_Load(object sender, EventArgs e)
         {
-
+            this.sistema = new Sistema();
         }
 
         private void btn_Ingresar_Click(object sender, EventArgs e)
@@ -36,10 +42,11 @@ namespace Interfaz
             {
                 try
                 {
-                    int posicionDelUsuario = 0; /*= Sistema.VerificarUsuarioContrasenia(txt_usuario.Text, txt_contrasenia.Text)*/
-                    if (posicionDelUsuario > -1)
+                    if (this.sistema.VerificarUsuarioContrasenia(txt_usuario.Text, txt_contrasenia.Text))
                     {
-                        //AccederAlMenuPrincipal(posicionDelUsuario);
+                        FrmMenuPrincipal menuPrincipal = new FrmMenuPrincipal();
+                        menuPrincipal.Show();
+                        this.Hide();
                     }
                     else
                     {
@@ -61,7 +68,8 @@ namespace Interfaz
 
         private void btn_BotonAutoCompletado_Click(object sender, EventArgs e)
         {
-
+            txt_usuario.Text = "admin";
+            txt_contrasenia.Text = "Admin!10";
         }
 
         private void lbl_recuperarContrasenia_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -74,6 +82,46 @@ namespace Interfaz
         {
             lbl_mensajeDeError.Text = "     " + mensaje;
             lbl_mensajeDeError.Visible = true;
+        }
+
+        private void FrmLogIn_MouseDown(object sender, MouseEventArgs e)
+        {
+            this.mouseAccion = true;
+            this.mousePosX = e.X;
+            this.mousePosY = e.Y;
+        }
+
+        private void FrmLogIn_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseAccion)
+            {
+                this.SetDesktopLocation(MousePosition.X - mousePosX, MousePosition.Y - mousePosY);
+            }
+        }
+
+        private void FrmLogIn_MouseUp(object sender, MouseEventArgs e)
+        {
+            this.mouseAccion = false;
+        }
+
+        private void pic_Logo_MouseDown(object sender, MouseEventArgs e)
+        {
+            this.mouseAccion = true;
+            this.mousePosX = e.X;
+            this.mousePosY = e.Y;
+        }
+
+        private void pic_Logo_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseAccion)
+            {
+                this.SetDesktopLocation(MousePosition.X - mousePosX, MousePosition.Y - mousePosY);
+            }
+        }
+
+        private void pic_Logo_MouseUp(object sender, MouseEventArgs e)
+        {
+            this.mouseAccion = false;
         }
     }
 }

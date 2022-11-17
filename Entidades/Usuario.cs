@@ -10,6 +10,8 @@ namespace Entidades
     {
         private string nombreDeUsuario;
         private string password;
+        private int id;
+
 
         public Usuario(string nombreDeUsuario, string password)
         {
@@ -17,9 +19,21 @@ namespace Entidades
             this.password = password;
         }
 
+        public Usuario(int id, string usuario, string password)
+        {
+            this.id = id;
+            this.nombreDeUsuario = usuario;
+            this.password = password;
+        }
+
         public string NombreDeUsuario
         {
             get => nombreDeUsuario;
+        }
+        public int Id
+        {
+            get => id;
+            set => id = value;
         }
 
         public bool VerificarPassword(string passwordActual)

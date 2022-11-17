@@ -17,7 +17,6 @@ namespace Entidades
         private bool terminoPartida;
         private Jugador ganador;
         private int[] ultimaTirada;
-        Task simulacion;
         CancellationTokenSource cancelacion;
         public event Action salidaLogs;
         Action<string> anunciarGanador;
@@ -91,7 +90,7 @@ namespace Entidades
         public void IniciarPartida()
         {
             this.inicioPartida = true;
-            this.simulacion = Task.Run(() =>SimularPartida(this.cancelacion.Token));
+            Task simulacion = Task.Run(() =>SimularPartida(this.cancelacion.Token));
         }
 
         public void SimularPartida(CancellationToken cancellation)
@@ -111,16 +110,15 @@ namespace Entidades
                 }
             }
             this.terminoPartida = true;
-            /*if (!cancellation.IsCancellationRequested)
-            {*/
-                this.ganador = this.J2;
-                if (juegoUno.PuntajeTotal > juegoDos.PuntajeTotal)
-                    this.ganador = this.J1;
+            this.ganador = this.J2;
+            if (juegoUno.PuntajeTotal > juegoDos.PuntajeTotal)
+                this.ganador = this.J1;
 
-                this.ganador.CantidadDeVictorias++;
-                anunciarGanador.Invoke(this.ganador.ToString());
-            //}
+            anunciarGanador.Invoke(this.ganador.ToString());
+            salidaLogs?.Invoke();
 
+            BaseDeDatos baseDeDatos = new BaseDeDatos();
+            baseDeDatos.AgregarPartida(this);
         }
 
         public void Turno(Juego juego)
@@ -160,15 +158,6 @@ namespace Entidades
                         Thread.Sleep(random.Next(2000, 5000));
                     }
                 }
-                juegoDelTurno = juego.TieneJuegoImportante();
-                if (!string.IsNullOrEmpty(juegoDelTurno))
-                {
-                    juego.RealizarJuego(juegoDelTurno);
-                    this.logPartida += $"{juego.Jugador.Nombre} realizo el juego: {juegoDelTurno} {Environment.NewLine}";
-                    this.logPartida += $"{Environment.NewLine}";
-                    salidaLogs?.Invoke();
-                    return;
-                }
                 juegoDelTurno = juego.ElegirMejorJugada();
                 if (!string.IsNullOrEmpty(juegoDelTurno))
                 {
@@ -182,34 +171,22 @@ namespace Entidades
                     this.logPartida += $"{juego.Jugador.Nombre} tacho el juego: {juegoDelTurno}{Environment.NewLine}";
                     salidaLogs?.Invoke();
                 }
-                Thread.Sleep(2000);
                 this.logPartida += $"{Environment.NewLine}";
                 salidaLogs?.Invoke();
+                Thread.Sleep(2000);
             }
         }
 
         private int ElegirDadoAleatorio(int dado)
         {
             Random random = new Random();
-            if (random.Next(1, 10) > 5)
+            if (random.Next(1, 10) < 5)
             {
                 return dado;
             }
             return -1;
         }
 
-        //public Jugador InformarJugadorGanador()
-        //{
-        //    if (this.puntajeUno > this.puntajeDos)
-        //    {
-        //        return jugadorUno;
-        //    }
-        //    else if (this.puntajeUno < this.puntajeDos)
-        //    {
-        //        return jugadorDos;
-        //    }
-        //    return null;
-        //}
         public static bool VerificarJugadorDisponible(List<Partida> partidas, Jugador j)
         {
             //TODO: SACAR DE ACA

@@ -6,7 +6,7 @@ namespace Entidades
 {
     public enum EstadoJuego
     {
-        Disponible, Realizado, Tachado
+         Realizado, Tachado, Disponible
     }
     public class Juego
     {
@@ -16,21 +16,11 @@ namespace Entidades
 
         public Juego(Jugador jugador)
         {
+            Sistema sistema = new Sistema();
             this.jugador = jugador;
             this.puntajeTotal = 0;
-            this.juegos = new Dictionary<string, EstadoJuego>()
-            {
-                {"Al 1",EstadoJuego.Disponible},
-                {"Al 2",EstadoJuego.Disponible},
-                {"Al 3",EstadoJuego.Disponible},
-                {"Al 4",EstadoJuego.Disponible},
-                {"Al 5",EstadoJuego.Disponible},
-                {"Al 6",EstadoJuego.Disponible},
-                {"Escalera",EstadoJuego.Disponible},
-                {"Full",EstadoJuego.Disponible},
-                {"Poker",EstadoJuego.Disponible},
-                {"Generala",EstadoJuego.Disponible},
-            };
+            this.juegos = new Dictionary<string, EstadoJuego>();
+            this.juegos = sistema.CargarTablaDeJuegos();
         }
 
         public bool Completo
@@ -44,7 +34,6 @@ namespace Entidades
                         return false;
                     }
                 }
-                this.jugador.PuntajeAcumulado += this.puntajeTotal;
                 return true;
             }
         }
@@ -180,7 +169,7 @@ namespace Entidades
                     return item;
                 }
             }
-            return null;
+            return string.Empty;
         }
 
         public string ElegirMejorJugada()
@@ -188,17 +177,20 @@ namespace Entidades
             List<string> juegosDisponibles = EncontrarJuegos();
             int mejorPuntaje = -1;
             int puntaje;
-            string juego = string.Empty;
+            string juego = TieneJuegoImportante();
 
-            foreach (string item in juegosDisponibles)
+            if (string.IsNullOrEmpty(juego))
             {
-                if (this.juegos[item] == EstadoJuego.Disponible && item.Contains("Al"))
+                foreach (string item in juegosDisponibles)
                 {
-                    puntaje = JugarAlNumero(this.jugador.Dados, int.Parse(item.Split(" ")[1]));
-                    if (mejorPuntaje == -1 || puntaje > mejorPuntaje)
+                    if (this.juegos[item] == EstadoJuego.Disponible && item.Contains("Al"))
                     {
-                        mejorPuntaje = puntaje;
-                        juego = item;
+                        puntaje = JugarAlNumero(this.jugador.Dados, int.Parse(item.Split(" ")[1]));
+                        if (mejorPuntaje == -1 || puntaje > mejorPuntaje)
+                        {
+                            mejorPuntaje = puntaje;
+                            juego = item;
+                        }
                     }
                 }
             }

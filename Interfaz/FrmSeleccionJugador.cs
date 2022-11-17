@@ -16,10 +16,12 @@ namespace Interfaz
         private Jugador? j1;
         private Jugador? j2;
         private List<Partida> partidas;
+        private BaseDeDatos db;
         public FrmSeleccionJugador(List<Partida> partidas)
         {
             InitializeComponent();
             this.partidas = partidas;
+            this.db = new BaseDeDatos();
         }
 
         public Jugador J1
@@ -33,17 +35,34 @@ namespace Interfaz
 
         private void FrmSeleccionJugador_Load(object sender, EventArgs e)
         {
-            cmb_JugadorUno.DataSource = BaseDeDatos.ObtenerJugadores();
-            cmb_JugadorDos.DataSource = BaseDeDatos.ObtenerJugadores();
+            ActualizarJugadores();
         }
 
-        private void btn_Salir_Click(object sender, EventArgs e)
+        private void ActualizarJugadores()
+        {
+            try
+            {
+                cmb_JugadorUno.DataSource = this.db.ObtenerJugadores();
+                cmb_JugadorDos.DataSource = this.db.ObtenerJugadores();
+            }
+            catch (Exception ex)
+            {
+                MostrarError(ex.Message);
+            }
+        }
+        private void MostrarError(string msj)
+        {
+            this.lbl_mensajeDeError.Visible = true;
+            this.lbl_mensajeDeError.Text = msj;
+        }
+
+        private void btn_Salir_Click_1(object sender, EventArgs e)
         {
             this.Close();
             DialogResult = DialogResult.Cancel;
         }
 
-        private void btn_Seleccionar_Click(object sender, EventArgs e)
+        private void btn_Seleccionar_Click_1(object sender, EventArgs e)
         {
             if (cmb_JugadorUno.SelectedItem.Equals(cmb_JugadorDos.SelectedItem))
             {
@@ -53,8 +72,8 @@ namespace Interfaz
             {
                 MostrarError("El jugador no puede estar vacio");
             }
-            else if (Partida.VerificarJugadorDisponible(this.partidas,(Jugador)cmb_JugadorUno.SelectedItem) ||
-                    Partida.VerificarJugadorDisponible(this.partidas,(Jugador)cmb_JugadorDos.SelectedItem))
+            else if (Partida.VerificarJugadorDisponible(this.partidas, (Jugador)cmb_JugadorUno.SelectedItem) ||
+                    Partida.VerificarJugadorDisponible(this.partidas, (Jugador)cmb_JugadorDos.SelectedItem))
             {
                 MostrarError("Uno de los jugadores ya esta en una partida");
             }
@@ -66,12 +85,17 @@ namespace Interfaz
             }
         }
 
-        private void MostrarError(string msj)
+        private void button1_Click(object sender, EventArgs e)
         {
-            this.lbl_mensajeDeError.Visible = true;
-            this.lbl_mensajeDeError.Text = msj;
+
         }
 
-        
+        private void btn_AgregarJugador_Click(object sender, EventArgs e)
+        {
+            FrmCrearJugador frmCrearJugador = new FrmCrearJugador();
+            frmCrearJugador.ShowDialog();
+
+            ActualizarJugadores();
+        }
     }
 }

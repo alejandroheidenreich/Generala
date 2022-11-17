@@ -60,6 +60,9 @@
             this.lbl_Dado3 = new System.Windows.Forms.Label();
             this.lbl_Dado2 = new System.Windows.Forms.Label();
             this.lbl_Dado1 = new System.Windows.Forms.Label();
+            this.btn_Salir = new System.Windows.Forms.Button();
+            this.btn_Estadisticas = new System.Windows.Forms.Button();
+            this.btn_Recargar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_Mesa)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoUno)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoDos)).BeginInit();
@@ -173,6 +176,7 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dtg_JuegoUno.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dtg_JuegoUno.Enabled = false;
             this.dtg_JuegoUno.GridColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.dtg_JuegoUno.Location = new System.Drawing.Point(513, 59);
             this.dtg_JuegoUno.MultiSelect = false;
@@ -184,6 +188,7 @@
             this.dtg_JuegoUno.Size = new System.Drawing.Size(187, 262);
             this.dtg_JuegoUno.TabIndex = 19;
             this.dtg_JuegoUno.TabStop = false;
+            this.dtg_JuegoUno.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dtg_JuegoUno_CellFormatting);
             // 
             // dtg_JuegoDos
             // 
@@ -203,6 +208,7 @@
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dtg_JuegoDos.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dtg_JuegoDos.Enabled = false;
             this.dtg_JuegoDos.GridColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.dtg_JuegoDos.Location = new System.Drawing.Point(1068, 59);
             this.dtg_JuegoDos.MultiSelect = false;
@@ -214,6 +220,7 @@
             this.dtg_JuegoDos.Size = new System.Drawing.Size(187, 262);
             this.dtg_JuegoDos.TabIndex = 20;
             this.dtg_JuegoDos.TabStop = false;
+            this.dtg_JuegoDos.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dtg_JuegoDos_CellFormatting);
             // 
             // lbl_J1
             // 
@@ -321,7 +328,7 @@
             this.lbl_MensajeDeSala.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lbl_MensajeDeSala.ForeColor = System.Drawing.Color.IndianRed;
             this.lbl_MensajeDeSala.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lbl_MensajeDeSala.Location = new System.Drawing.Point(1157, 377);
+            this.lbl_MensajeDeSala.Location = new System.Drawing.Point(1113, 377);
             this.lbl_MensajeDeSala.Name = "lbl_MensajeDeSala";
             this.lbl_MensajeDeSala.Size = new System.Drawing.Size(106, 16);
             this.lbl_MensajeDeSala.TabIndex = 30;
@@ -345,7 +352,7 @@
             // pic_Imagen
             // 
             this.pic_Imagen.Image = ((System.Drawing.Image)(resources.GetObject("pic_Imagen.Image")));
-            this.pic_Imagen.Location = new System.Drawing.Point(532, 457);
+            this.pic_Imagen.Location = new System.Drawing.Point(534, 377);
             this.pic_Imagen.Name = "pic_Imagen";
             this.pic_Imagen.Size = new System.Drawing.Size(126, 107);
             this.pic_Imagen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -354,7 +361,7 @@
             // 
             // btn_IMG
             // 
-            this.btn_IMG.Location = new System.Drawing.Point(559, 570);
+            this.btn_IMG.Location = new System.Drawing.Point(559, 490);
             this.btn_IMG.Name = "btn_IMG";
             this.btn_IMG.Size = new System.Drawing.Size(75, 23);
             this.btn_IMG.TabIndex = 33;
@@ -395,7 +402,7 @@
             this.gb_Dados.Controls.Add(this.lbl_Dado3);
             this.gb_Dados.Controls.Add(this.lbl_Dado2);
             this.gb_Dados.Controls.Add(this.lbl_Dado1);
-            this.gb_Dados.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.gb_Dados.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.gb_Dados.Location = new System.Drawing.Point(839, 129);
             this.gb_Dados.Name = "gb_Dados";
             this.gb_Dados.Size = new System.Drawing.Size(92, 417);
@@ -448,6 +455,56 @@
             this.lbl_Dado1.Size = new System.Drawing.Size(80, 80);
             this.lbl_Dado1.TabIndex = 5;
             // 
+            // btn_Salir
+            // 
+            this.btn_Salir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btn_Salir.FlatAppearance.BorderSize = 0;
+            this.btn_Salir.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.btn_Salir.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btn_Salir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Salir.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btn_Salir.ForeColor = System.Drawing.Color.Maroon;
+            this.btn_Salir.Location = new System.Drawing.Point(1341, 12);
+            this.btn_Salir.Name = "btn_Salir";
+            this.btn_Salir.Size = new System.Drawing.Size(43, 38);
+            this.btn_Salir.TabIndex = 36;
+            this.btn_Salir.Text = "X";
+            this.btn_Salir.UseVisualStyleBackColor = false;
+            this.btn_Salir.Click += new System.EventHandler(this.btn_Salir_Click);
+            // 
+            // btn_Estadisticas
+            // 
+            this.btn_Estadisticas.BackColor = System.Drawing.Color.Transparent;
+            this.btn_Estadisticas.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_Estadisticas.BackgroundImage")));
+            this.btn_Estadisticas.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btn_Estadisticas.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_Estadisticas.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btn_Estadisticas.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.btn_Estadisticas.Location = new System.Drawing.Point(498, 557);
+            this.btn_Estadisticas.Name = "btn_Estadisticas";
+            this.btn_Estadisticas.Size = new System.Drawing.Size(139, 75);
+            this.btn_Estadisticas.TabIndex = 37;
+            this.btn_Estadisticas.Text = "ESTADISTICAS";
+            this.btn_Estadisticas.UseVisualStyleBackColor = false;
+            this.btn_Estadisticas.Click += new System.EventHandler(this.btn_Estadisticas_Click);
+            // 
+            // btn_Recargar
+            // 
+            this.btn_Recargar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btn_Recargar.FlatAppearance.BorderSize = 0;
+            this.btn_Recargar.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.btn_Recargar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btn_Recargar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Recargar.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btn_Recargar.ForeColor = System.Drawing.Color.Maroon;
+            this.btn_Recargar.Image = ((System.Drawing.Image)(resources.GetObject("btn_Recargar.Image")));
+            this.btn_Recargar.Location = new System.Drawing.Point(418, 401);
+            this.btn_Recargar.Name = "btn_Recargar";
+            this.btn_Recargar.Size = new System.Drawing.Size(43, 38);
+            this.btn_Recargar.TabIndex = 38;
+            this.btn_Recargar.UseVisualStyleBackColor = false;
+            this.btn_Recargar.Click += new System.EventHandler(this.btn_Recargar_Click);
+            // 
             // FrmMenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -455,6 +512,10 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1396, 636);
+            this.ControlBox = false;
+            this.Controls.Add(this.btn_Recargar);
+            this.Controls.Add(this.btn_Estadisticas);
+            this.Controls.Add(this.btn_Salir);
             this.Controls.Add(this.lbl_MensajeDeSala);
             this.Controls.Add(this.gb_Dados);
             this.Controls.Add(this.lbl_Ganador);
@@ -475,11 +536,14 @@
             this.Controls.Add(this.btn_CrearMesa);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.rtb_LogPartida);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmMenuPrincipal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Generala";
             this.Load += new System.EventHandler(this.FrmMenuPrincipal_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMenuPrincipal_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FrmMenuPrincipal_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FrmMenuPrincipal_MouseUp);
             ((System.ComponentModel.ISupportInitialize)(this.dtg_Mesa)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoUno)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoDos)).EndInit();
@@ -520,5 +584,8 @@
         private System.Windows.Forms.Label lbl_Dado3;
         private System.Windows.Forms.Label lbl_Dado2;
         private System.Windows.Forms.Label lbl_Dado1;
+        private System.Windows.Forms.Button btn_Salir;
+        private System.Windows.Forms.Button btn_Estadisticas;
+        private System.Windows.Forms.Button btn_Recargar;
     }
 }
