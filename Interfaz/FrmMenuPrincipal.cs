@@ -323,6 +323,8 @@ namespace Interfaz
             this.lbl_PuntajeJ1.Text = "0";
             this.lbl_PuntajeJ2.Text = "0";
             this.rtb_LogPartida.Text = "";
+            this.lbl_Ganador.Visible = false;
+            this.lbl_MensajeDeSala.Visible = false;
         }
     }
 }
