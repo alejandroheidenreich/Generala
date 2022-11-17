@@ -325,6 +325,7 @@ namespace Interfaz
             this.rtb_LogPartida.Text = "";
             this.lbl_Ganador.Visible = false;
             this.lbl_MensajeDeSala.Visible = false;
+
         }
     }
 }
