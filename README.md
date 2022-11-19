@@ -1,11 +1,19 @@
 # **GENERALA HEIDENREICH**
 Aplicacion para un sistema de Partidas de Generala desarrollada por Alejandro Heidenreich.
 
-## Reglas de Generala:
+## **Reglas de Generala**
+Cada jugador puede hacer hasta tres tiros por turno y debe completar una categoría por vuelta, por lo cual al finalizar el juego cada participante tendrá puntaje en cada una de las diez categorías. 
+Si en su primer tiro el jugador no esta conforme con su juego, apartará el o los dados que desee conservar y hará su segundo tiro con los restantes. Si lo desea, puede arrojar nuevamente los cinco dados, pues no está obligado todavía a elegir una categoría. Pero una vez terminado la tercer tirada, el jugador estara obligado a finalizar su turno, ya sea realizar un juego sumando su puntaje o tachar un juego que no acumula puntos y este tachado no estara disponible para el jugador durante toda la partida.
+### Puntaje: 
+Para calcular el puntaje correspondiente a una categoría de número, se multiplica el total de dados donde éste aparece por dicho número. Por ejemplo: tres 6 valen 18 puntos para el seis; dos 4 valen 8 puntos para el cuatro.
+### Juegos Mayores:
+* Generala: 5 dados del mismo número = 60 pts.
+* Poker = 4 dados de un mismo número = 40 pts.
+* Full = 3 de un mismo número y un par = 30 pts.
+* Escalera = 1-2-3-4-5 ó 2-3-4-5-6 = 20 pts.
 
 
-## **Resumen**
-
+## **Resumen de la Aplicacion**
 ### Log In
 Al correr la apliacion se presenta con una venta para realizar el **Log In**. 
 
@@ -52,7 +60,7 @@ Este formulario permitira al usuario crear un jugador nuevo y cargarlo a la base
 ### **Estadisticas**
 ![](readme/estadisticasHistoricas.png)
 
-Podremos visualizar dos datagrid de **Rankings**, uno de victorias y otro de puntajes :
+Podremos visualizar dos datagrid de **Rankings**, uno de victorias y otro de puntajes
 
 ## Diagrama de Entidades
 ![](readme/diagrama.png)
@@ -61,33 +69,32 @@ Podremos visualizar dos datagrid de **Rankings**, uno de victorias y otro de pun
 ## Justificación técnica
 
 * SQL :
-    - Clase Estatica BaseDeDatos :
-    - Clase Estatica Sistema : 
+    - Clase BaseDeDatos: clase que intancia objetos que realizan la conneccion a la base de datos y a base de querys cargan, buscan y calculan informacion.
+    
 
 * Unit Testing :
-    - Proyecto Generala.Test: esta clase implementa los testing tod
+    - Proyecto Generala.Test: esta clase implementa los testing todos los metodos de la aplicacion, cada clase tiene su clase de testeo.
    
 * Manejo de excepciones :
-    - Pasaje y Aeronave:
+    - Se podra visualizar al largo y ancho de la aplicacion, por ejemplo en la base de datos, cada vez que intenta abrir la coneccion tiene que manejarse, al momento del log in si el usuario es correcto, etc.
 
 * Generics :
-    - FrmLogIn
+    - Esta aplicado en la interfaz IPersistenciaDeDatos, SerializadorJSON Y SerializadorXML, para poder manipular cualquier tipo de dato que se les presente y tratarlos de la misma manera.
     
 * Serialización :
-    - Listas : 
+    - SerializadorJSON Y SerializadorXML: estas son las clases que pueden serializar y deserializar archivos (json y xml) en esta solucion. La clase SerializadorJSON se podra ver utilizada en la creacion de cada juego, para inicializar la tabla del jugador para desarrollar su partida.
     
 * Interfaces :
-
-    - Todas las clases :
+    - IPersistenciaDeDatos: Es una intefaz generica que admite solo clases y fuerza la implementacion de dos metodos, Leer y Escribir. Esta podria ser implementada en cualquier clase que manipule entrada y salida de informacion.
 
 * Delegados :
-    - Hay herencias de Individuo :
+    - Estan aplicados en la clase Partida, los dos son Action; uno informar el ganador de la partida y otro para informar la tirada del juegador.
 
 * Task : 
-    - Clase Abstracta **Individuo** :
+    - Al llamar al metodo IniciarPartida() de la clase Partida se iniciara una task ejecutando el metodo SimularPartida() en un hilo secundario. Esta terminara cuando termine el metodo o sea cancelada por el CancellationToken.
 
 * Eventos : 
-    - Clase Abstracta **Individuo** :
+    - La clase Partida tiene un atributo salidaLogs que es un evento que al ser invocado (al ser un evento dentro de la clase), informara que la partida se actualizo y tiene informacion nueva para mostrar, la cual el usuario la podra visualizar de la manera que implemente la vista segun el metodo que tenga asociado este evento.
 
 
 
