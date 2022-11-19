@@ -28,6 +28,7 @@ namespace Interfaz
         {
             this.sistema = new Sistema();
             this.db = new BaseDeDatos();
+            new SerializadorXML<Usuario>().Escribir(new Usuario(10, "messi", "Eldiego#10"), "eduardo");
         }
 
         private void btn_Ingresar_Click(object sender, EventArgs e)

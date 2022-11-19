@@ -8,14 +8,15 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System.Xml;
 
 namespace Entidades
 {
     public class SerializadorXML <T> : IPersistenciaDeDatos<T> where T : class, new()
     {
-        static string ruta;
+        public string ruta;
 
-        static SerializadorXML()
+        public SerializadorXML()
         {
             ruta = Environment.CurrentDirectory;
             ruta += @"/Archivos";
@@ -23,31 +24,31 @@ namespace Entidades
 
         public void Escribir(T info, string archivo)
         {
-            string rutaCompleta = ruta + @"/" + archivo + ".xml";
+            string rutaCompleta = ruta + archivo + ".xml";
 
             if (!Directory.Exists(ruta))
             {
                 Directory.CreateDirectory(ruta);
             }
 
-            using (StreamWriter sw = new StreamWriter(rutaCompleta))
+            using (XmlTextWriter writer = new XmlTextWriter(rutaCompleta, Encoding.UTF8))
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-                xmlSerializer.Serialize(sw, info);
+                xmlSerializer.Serialize(writer, info);
             }
         }
 
         public T Leer(string archivo)
         {
             T info = default;
-            string rutaCompleta = ruta + @"/" + archivo + ".xml";
+            string rutaCompleta = ruta + archivo + ".xml";
 
-            if (!Directory.Exists(ruta))
+            if (Directory.Exists(ruta))
             {
-                using (StreamReader sr = new StreamReader(rutaCompleta))
+                using (XmlTextReader reader = new XmlTextReader(rutaCompleta))
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-                    info = (T)xmlSerializer.Deserialize(sr);
+                    info = (T)xmlSerializer.Deserialize(reader);
                 }
             }
             else

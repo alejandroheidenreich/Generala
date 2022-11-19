@@ -7,7 +7,6 @@ using System.Xml.Serialization;
 
 namespace Entidades
 {
-    [XmlSerializerAssembly]
     public class Usuario
     {
         private string nombreDeUsuario;
@@ -33,6 +32,7 @@ namespace Entidades
         public string NombreDeUsuario
         {
             get => nombreDeUsuario;
+            set => nombreDeUsuario = value;
         }
         public int Id
         {
