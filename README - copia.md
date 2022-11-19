@@ -26,14 +26,10 @@ Una vez correctamente el usuario loggeado, tiene acceso a la ventana del **Menu 
 ![](readme/menuprincipal.png)
 
 Con esta venta visualizar y administrar las partidas de la aplicacion, consta de los siguientes botones :
-* **Crear Mesa** : crea una mesa, para eso deberemos elegir dos jugadores y luego se podra visualizar dicha partida en el datagrid de la izquierda.
-* **Clientes** : abre el formulario _MDI_ para administrar los clintes.
-* **Vuelos** : abre el formulario _MDI_ para administrar los vuelos.
-* **Cuenta** : despliega dos opciones
-    - Configurar Cuenta: abre el formulario _MDI_ para administrar la cuenta del usuario.
-    - Cerrar Sesion: cierra el _Menu Principal_ y vuelve al _Log In_.
-* **Horario** : muestra o esconde la hora.
-* **Cerrar** : cierra la aplicacion.
+* **Crear Mesa** : crea una mesa, para eso deberemos elegir dos jugadores en otro formulario y luego se podra visualizar dicha partida en el datagrid de la izquierda.
+* **Iniciar Partida** : inicia la partida seleccionada en el datagrid izquierdo y muestra el desarrollo de la misma en la parte derechad de la aplicacion
+* **Cancelar Partida** : cancela la partida seleccionada en el datagrid izquierdo, luego de terminar la mano actual, finalizara la partida mostrando el ganador con la puntuacion en ese momento
+* **Estadisticas** : se abrira un nuevo formulario mostrando informes de partidas recolectadas de la base datos.
 
 ### **Clientes**
 ![](readme/clientes.png)
