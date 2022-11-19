@@ -25,8 +25,8 @@ Una vez correctamente el usuario loggeado, tiene acceso a la ventana del **Menu 
 
 ![](readme/menuprincipal.png)
 
-Con esta venta podremos navegar por nuestra aplicacion, consta con un _menu strip_ con los siguientes botones :
-* **Inicio** : vuelve a mostrar el fondo del _Menu Principal_ cerrando todos los formularios abiertos, si es que lo hay.
+Con esta venta visualizar y administrar las partidas de la aplicacion, consta de los siguientes botones :
+* **Crear Mesa** : crea una mesa, para eso deberemos elegir dos jugadores y luego se podra visualizar dicha partida en el datagrid de la izquierda.
 * **Clientes** : abre el formulario _MDI_ para administrar los clintes.
 * **Vuelos** : abre el formulario _MDI_ para administrar los vuelos.
 * **Cuenta** : despliega dos opciones

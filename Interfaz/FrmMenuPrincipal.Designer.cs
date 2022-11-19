@@ -50,8 +50,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.lbl_MensajeDeSala = new System.Windows.Forms.Label();
             this.lbl_MensajeDeError = new System.Windows.Forms.Label();
-            this.pic_Imagen = new System.Windows.Forms.PictureBox();
-            this.btn_IMG = new System.Windows.Forms.Button();
             this.lbl_Ganador = new System.Windows.Forms.Label();
             this.imglst_Dados = new System.Windows.Forms.ImageList(this.components);
             this.gb_Dados = new System.Windows.Forms.GroupBox();
@@ -67,7 +65,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoUno)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoDos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_Imagen)).BeginInit();
             this.gb_Dados.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -349,26 +346,6 @@
             this.lbl_MensajeDeError.Text = "Mensaje de Error";
             this.lbl_MensajeDeError.Visible = false;
             // 
-            // pic_Imagen
-            // 
-            this.pic_Imagen.Image = ((System.Drawing.Image)(resources.GetObject("pic_Imagen.Image")));
-            this.pic_Imagen.Location = new System.Drawing.Point(534, 377);
-            this.pic_Imagen.Name = "pic_Imagen";
-            this.pic_Imagen.Size = new System.Drawing.Size(126, 107);
-            this.pic_Imagen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pic_Imagen.TabIndex = 32;
-            this.pic_Imagen.TabStop = false;
-            // 
-            // btn_IMG
-            // 
-            this.btn_IMG.Location = new System.Drawing.Point(559, 490);
-            this.btn_IMG.Name = "btn_IMG";
-            this.btn_IMG.Size = new System.Drawing.Size(75, 23);
-            this.btn_IMG.TabIndex = 33;
-            this.btn_IMG.Text = "IMG";
-            this.btn_IMG.UseVisualStyleBackColor = true;
-            this.btn_IMG.Click += new System.EventHandler(this.btn_IMG_Click);
-            // 
             // lbl_Ganador
             // 
             this.lbl_Ganador.AutoSize = true;
@@ -519,8 +496,6 @@
             this.Controls.Add(this.lbl_MensajeDeSala);
             this.Controls.Add(this.gb_Dados);
             this.Controls.Add(this.lbl_Ganador);
-            this.Controls.Add(this.btn_IMG);
-            this.Controls.Add(this.pic_Imagen);
             this.Controls.Add(this.lbl_MensajeDeError);
             this.Controls.Add(this.btn_CancelarPartida);
             this.Controls.Add(this.lbl_PuntajeJ2);
@@ -549,7 +524,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoUno)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_JuegoDos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_Imagen)).EndInit();
             this.gb_Dados.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -575,8 +549,6 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label lbl_MensajeDeSala;
         private System.Windows.Forms.Label lbl_MensajeDeError;
-        private System.Windows.Forms.PictureBox pic_Imagen;
-        private System.Windows.Forms.Button btn_IMG;
         private System.Windows.Forms.Label lbl_Ganador;
         private System.Windows.Forms.ImageList imglst_Dados;
         private System.Windows.Forms.GroupBox gb_Dados;

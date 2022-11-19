@@ -242,32 +242,6 @@ namespace Interfaz
             }
         }
 
-        private void btn_IMG_Click(object sender, EventArgs e)
-        {
-            // TODO: saca esto de aca
-            // open file dialog   
-            OpenFileDialog open = new OpenFileDialog();
-            // image filters  
-            open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp, *.png)|*.jpg; *.jpeg; *.gif; *.bmp; *.png";
-            if (open.ShowDialog() == DialogResult.OK)
-            {
-                // Serializar la imagen y guardarla...
-                //MessageBox.Show("Se selecciono una imagen buena");
-                // display image in picture box  
-                Bitmap imagenDelUsuario = new Bitmap(open.FileName);
-                ImageConverter converter = new ImageConverter();
-                string bitmapData = Convert.ToBase64String((byte[])converter.ConvertTo(imagenDelUsuario, typeof(byte[])));
-                byte[] bytes = Convert.FromBase64String(bitmapData);
-                Bitmap bitmap;
-                using (var ms = new MemoryStream(bytes))
-                {
-                    bitmap = new Bitmap(Bitmap.FromStream(ms));
-                }
-                this.pic_Imagen.Image = bitmap;
-                
-            }
-        }
-
         private void btn_Salir_Click(object sender, EventArgs e)
         {
             Application.Exit();

@@ -23,7 +23,7 @@ namespace Generala.Test
 
 
         [TestMethod]
-        public void Escribir_Test()
+        public void LeerYEscribir_Test()
         {
             Usuario usuarioObtenido;
 
@@ -34,19 +34,6 @@ namespace Generala.Test
             Assert.IsNotNull(usuarioObtenido);
             Assert.IsTrue(usuarioObtenido == usuario);
 
-        }
-
-        [TestMethod]
-        public void Leer_Test()
-        {
-            Usuario usuarioObtenido;
-
-            xml.Escribir(usuario, "EscrituraXML_Test");
-
-            usuarioObtenido = xml.Leer("EscrituraXML_Test");
-
-            Assert.IsNotNull(usuarioObtenido);
-            //Assert.IsTrue(usuarioObtenido == usuario);
         }
     }
 }

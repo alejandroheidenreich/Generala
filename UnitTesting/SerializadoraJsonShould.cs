@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Generala.Test
 {
     [TestClass]
-    public class SerializadoraJasonShould
+    public class SerializadoraJsonShould
     {
         private SerializadoraJSON<string> json;
         [TestInitialize]
@@ -20,7 +20,7 @@ namespace Generala.Test
 
 
         [TestMethod]
-        public void Escribir_Test()
+        public void LeerYEscribir_Test()
         {
             string test = "Roberto";
             string lectura;
@@ -32,20 +32,6 @@ namespace Generala.Test
             Assert.IsNotNull(lectura);
             Assert.AreEqual(lectura, test);
 
-        }
-
-        [TestMethod]
-        public void Leer_Test()
-        {
-            string test = "Eduardo";
-            string lectura;
-
-            json.Escribir(test, "LecturaJson_Test");
-
-            lectura = json.Leer("LecturaJson_Test");
-
-            Assert.IsNotNull(lectura);
-            Assert.AreEqual(lectura, test);
         }
     }
 }
