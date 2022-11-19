@@ -20,7 +20,15 @@ namespace Entidades
             this.jugador = jugador;
             this.puntajeTotal = 0;
             this.juegos = new Dictionary<string, EstadoJuego>();
-            this.juegos = sistema.CargarTablaDeJuegos();
+            try
+            {
+                this.juegos = sistema.CargarTablaDeJuegos();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         public bool Completo
@@ -172,7 +180,7 @@ namespace Entidades
             return string.Empty;
         }
 
-        public string ElegirMejorJugada()
+        public string ElegirMejorJugadaAlNumero()
         {
             List<string> juegosDisponibles = EncontrarJuegos();
             int mejorPuntaje = -1;

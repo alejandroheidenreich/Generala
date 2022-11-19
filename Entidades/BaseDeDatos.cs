@@ -11,14 +11,13 @@ namespace Entidades
     public class BaseDeDatos
     {
 
-        private static string connectionString;
-        private static SqlConnection connection;
-        private static SqlCommand command;
+        private string connectionString;
+        private SqlConnection connection;
+        private SqlCommand command;
 
         public BaseDeDatos()
         {
             connectionString = @"Server =.; Database = Generala ;Trusted_Connection=True; ";
-
             connection = new SqlConnection(connectionString);
             command = new SqlCommand();
 
@@ -30,26 +29,31 @@ namespace Entidades
         {
             List<Usuario> usuarios = new List<Usuario>();
 
-            connection.Open();
-
-            command.CommandText = "SELECT * FROM Usuarios";
-
-            SqlDataReader reader = command.ExecuteReader();
-
-
-            while (reader.Read())
+            try
             {
-                int id = reader.GetInt32(0);
-                string usuario = reader.GetString(1);
-                string contraseña = reader.GetString(2);
+                connection.Open();
+                command.CommandText = "SELECT * FROM Usuarios";
 
-                Usuario usuarioLeido = new Usuario(id, usuario, contraseña);
-                usuarios.Add(usuarioLeido);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int id = reader.GetInt32(0);
+                    string usuario = reader.GetString(1);
+                    string contraseña = reader.GetString(2);
+
+                    Usuario usuarioLeido = new Usuario(id, usuario, contraseña);
+                    usuarios.Add(usuarioLeido);
+                }
             }
-
-            if (connection.State == ConnectionState.Open)
+            catch (Exception)
             {
-                connection.Close();
+
+                throw new Exception("Error en Base de Datos");
+            }
+            finally
+            {
+                CerrarConneccionBaseDeDatos();
             }
 
             return usuarios;
@@ -58,29 +62,33 @@ namespace Entidades
         {
             List<Jugador> jugadores = new List<Jugador>();
 
-            connection.Open();
-
-            command.CommandText = "SELECT * FROM Jugadores";
-
-            SqlDataReader reader = command.ExecuteReader();
-
-
-            while (reader.Read())
+            try
             {
-                int id = reader.GetInt32(0);
-                string nombre = reader.GetString(1);
+                connection.Open();
+                command.CommandText = "SELECT * FROM Jugadores";
 
-                Jugador jugadorLeido = new Jugador(id, nombre);
-                jugadores.Add(jugadorLeido);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int id = reader.GetInt32(0);
+                    string nombre = reader.GetString(1);
+
+                    Jugador jugadorLeido = new Jugador(id, nombre);
+                    jugadores.Add(jugadorLeido);
+                }
             }
-
-            if (connection.State == ConnectionState.Open)
+            catch (Exception)
             {
-                connection.Close();
+                throw new Exception("Error en Base de Datos");
             }
-
+            finally
+            {
+                CerrarConneccionBaseDeDatos();
+            }
             return jugadores;
         }
+
         public void AgregarPartida(Partida partida)
         {
             int idJuegoUno;
@@ -108,11 +116,7 @@ namespace Entidades
             }
             finally
             {
-                command.Parameters.Clear();
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                }
+                CerrarConneccionBaseDeDatos();
             }
         }
 
@@ -123,44 +127,11 @@ namespace Entidades
             try
             {
                 connection.Open();
-                command.CommandText = $"INSERT INTO Juego VALUES (@idJugador, @puntaje, @escalera, @jfull, @poker, @generala) ";
+                command.CommandText = $"INSERT INTO Juego VALUES (@idJugador, @puntaje) ";
                 command.Parameters.AddWithValue("@idJugador", juego.Jugador.Id);
                 command.Parameters.AddWithValue("@puntaje", juego.PuntajeTotal);
-                if (juego.Juegos["Escalera"] == EstadoJuego.Realizado)
-                {
-                    command.Parameters.AddWithValue("@escalera", 1);
-                }
-                else
-                {
-                    command.Parameters.AddWithValue("@escalera", 0);
-                }
-                if (juego.Juegos["Full"] == EstadoJuego.Realizado)
-                {
-                    command.Parameters.AddWithValue("@jfull", 1);
-                }
-                else
-                {
-                    command.Parameters.AddWithValue("@jfull", 0);
-                }
-                if (juego.Juegos["Poker"] == EstadoJuego.Realizado)
-                {
-                    command.Parameters.AddWithValue("@poker", 1);
-                }
-                else
-                {
-                    command.Parameters.AddWithValue("@poker", 0);
-                }
-                if (juego.Juegos["Generala"] == EstadoJuego.Realizado)
-                {
-                    command.Parameters.AddWithValue("@generala", 1);
-                }
-                else
-                {
-                    command.Parameters.AddWithValue("@generala", 0);
-                }
-
+                
                 command.ExecuteNonQuery();
-
                 command.Parameters.Clear();
 
                 command.CommandText = "select MAX(id) as 'id' from Juego";
@@ -178,11 +149,7 @@ namespace Entidades
             }
             finally
             {
-                command.Parameters.Clear();
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                }
+                CerrarConneccionBaseDeDatos();
             }
             return id;
         }
@@ -203,36 +170,86 @@ namespace Entidades
             }
             finally
             {
-                command.Parameters.Clear();
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                }
+                CerrarConneccionBaseDeDatos();
             }
         }
+
 
         public Dictionary<string, int> InformarRankingVictorias()
         {
             Dictionary<string,int> ranking = new Dictionary<string, int>();
 
-            connection.Open();
-            command.CommandText = "SELECT Jugadores.nombre, COUNT(Partida.idGanador) AS puntaje FROM Jugadores LEFT JOIN Partida ON (Jugadores.id = Partida.idGanador) GROUP BY Jugadores.nombre ORDER BY puntaje DESC";
-
-            SqlDataReader reader = command.ExecuteReader();
-
-            while (reader.Read())
+            try
             {
-                string nombre = reader.GetString(0);
-                int victorias = reader.GetInt32(1);
-                ranking[nombre] = victorias;
+                connection.Open();
+                command.CommandText = "SELECT Jugadores.nombre, COUNT(Partida.idGanador) AS victorias FROM Jugadores LEFT JOIN Partida ON (Jugadores.id = Partida.idGanador) GROUP BY Jugadores.nombre ORDER BY victorias DESC";
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string nombre = reader.GetString(0);
+                    int victorias = reader.GetInt32(1);
+                    ranking[nombre] = victorias;
+                }
             }
-
-            if (connection.State == ConnectionState.Open)
+            catch (Exception)
             {
-                connection.Close();
+
+                throw new Exception("Error en Base de Datos");
+            }
+            finally
+            {
+                CerrarConneccionBaseDeDatos();
             }
 
             return ranking;
+        }
+
+        public Dictionary<string, int> InformarRankingPuntaje()
+        {
+            Dictionary<string, int> ranking = new Dictionary<string, int>();
+
+            try
+            {
+      
+                connection.Open();
+                command.CommandText = "SELECT Jugadores.nombre,COALESCE(SUM(Juego.puntaje),0) AS Puntaje FROM Jugadores LEFT JOIN Juego on Juego.idJugador = Jugadores.id GROUP BY Jugadores.nombre ORDER BY Puntaje desc";
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string nombre = reader.GetString(0);
+                    int puntaje = reader.GetInt32(1);
+                    ranking[nombre] = puntaje;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("Error en Base de Datos");
+            }
+            finally
+            {
+                CerrarConneccionBaseDeDatos();
+            }
+
+            return ranking;
+        }
+        private void CerrarConneccionBaseDeDatos()
+        {
+            if (this.connection.State == ConnectionState.Open)
+            {
+                this.connection.Close();
+            }
+        }
+
+        public void ForzarErrorDeConeccionTesting()
+        {
+            connection = new SqlConnection("");
+            command = new SqlCommand();
+            command.Connection = connection;
         }
     }
 }

@@ -29,15 +29,6 @@ namespace Interfaz
         private void FrmMenuPrincipal_Load(object sender, EventArgs e)
         {
             this.mesas = new List<Partida>();
-            //Sistema sistema = new Sistema();
-            //sistema.CrearTablaDeJuegos();
-
-            //SerializadoraJSON<Dictionary<string, EstadoJuego>> dic = new SerializadoraJSON<Dictionary<string, EstadoJuego>>();
-            //Dictionary<string, EstadoJuego> map = new Dictionary<string, EstadoJuego>();
-            //map = dic.Leer("tablita");
-            //BindingSource bs = new BindingSource();
-            //bs.DataSource = map;
-            //dtg_JuegoDos.DataSource = bs;
         }
         private void btn_CrearMesa_Click(object sender, EventArgs e)
         {
@@ -46,13 +37,28 @@ namespace Interfaz
             DialogResult result = frmSeleccionJugador.ShowDialog();
             if (result == DialogResult.OK)
             {
-                Partida partida = new Partida(frmSeleccionJugador.J1, frmSeleccionJugador.J2, AnunciarGanador, MostrarDados);
-                this.mesas!.Add(partida);
-                partida.salidaLogs += SeleccionarMesa;
-                
+                try
+                {
+                    Partida partida = new Partida(frmSeleccionJugador.J1, frmSeleccionJugador.J2, AnunciarGanador, MostrarDados);
+                    this.mesas!.Add(partida);
+                    partida.salidaLogs += SeleccionarMesa;
+                }
+                catch (Exception ex)
+                {
+                    InformarErrorFatal(ex);
+                }
             }
 
             ActualizarListaDeMesas();
+        }
+
+        private static void InformarErrorFatal(Exception ex)
+        {
+            DialogResult respuesta = MessageBox.Show($"{ex.Message}. El programa se cerrara", "Error Fatal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (respuesta == DialogResult.OK)
+            {
+                Application.Exit();
+            }
         }
 
         private void ActualizarDatosDePartida(Partida partida)
@@ -325,7 +331,6 @@ namespace Interfaz
             this.rtb_LogPartida.Text = "";
             this.lbl_Ganador.Visible = false;
             this.lbl_MensajeDeSala.Visible = false;
-
         }
     }
 }

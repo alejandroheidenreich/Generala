@@ -13,25 +13,29 @@ namespace Interfaz
 {
     public partial class FrmEstadisticas : Form
     {
-        BaseDeDatos db;
+        BaseDeDatos? db;
         public FrmEstadisticas()
         {
             InitializeComponent();
-            db = new BaseDeDatos(); 
         }
 
         private void btn_Salir_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
+
         }
 
         private void FrmEstadisticas_Load(object sender, EventArgs e)
         {
             try
             {
+                db = new BaseDeDatos();
                 BindingSource bs = new BindingSource();
+                BindingSource bs2 = new BindingSource();
                 bs.DataSource = db.InformarRankingVictorias();
+                bs2.DataSource = db.InformarRankingPuntaje();
                 this.dtg_RankingVictorias.DataSource = bs;
+                this.dtg_RankingPuntajes.DataSource = bs2;
             }
             catch (Exception ex)
             {

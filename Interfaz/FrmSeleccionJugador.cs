@@ -85,11 +85,6 @@ namespace Interfaz
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btn_AgregarJugador_Click(object sender, EventArgs e)
         {
             FrmCrearJugador frmCrearJugador = new FrmCrearJugador();

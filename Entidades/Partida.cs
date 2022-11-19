@@ -158,7 +158,7 @@ namespace Entidades
                         Thread.Sleep(random.Next(2000, 5000));
                     }
                 }
-                juegoDelTurno = juego.ElegirMejorJugada();
+                juegoDelTurno = juego.ElegirMejorJugadaAlNumero();
                 if (!string.IsNullOrEmpty(juegoDelTurno))
                 {
                     juego.RealizarJuego(juegoDelTurno);
@@ -189,7 +189,6 @@ namespace Entidades
 
         public static bool VerificarJugadorDisponible(List<Partida> partidas, Jugador j)
         {
-            //TODO: SACAR DE ACA
             foreach (Partida item in partidas)
             {
                 if (item==j)

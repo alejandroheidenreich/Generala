@@ -12,7 +12,9 @@ namespace Entidades
         private string password;
         private int id;
 
-
+        public Usuario()
+        {
+        }
         public Usuario(string nombreDeUsuario, string password)
         {
             this.nombreDeUsuario = nombreDeUsuario;
@@ -34,6 +36,11 @@ namespace Entidades
         {
             get => id;
             set => id = value;
+        }
+        public string Password_Test
+        {
+            get => password;
+            set => password = value;
         }
 
         public bool VerificarPassword(string passwordActual)
@@ -61,10 +68,10 @@ namespace Entidades
             return usuario is not null && this == usuario;
         }
 
-        private static void ValidarString(string strAValidar, out string strValidado, string msjError)
+        public static void ValidarString(string strAValidar, out string strValidado, string msjError)
         {
             strValidado = String.Empty;
-            if (strAValidar is not null)
+            if (!string.IsNullOrEmpty(strAValidar))
             {
                 strValidado = strAValidar;
             }
@@ -74,11 +81,11 @@ namespace Entidades
             }
         }
 
-        private static void ValidarPassword(string passwordAValidar, out string passwordValidado)
+        public static void ValidarPassword(string passwordAValidar, out string passwordValidado)
         {
             passwordValidado = string.Empty;
 
-            if (passwordAValidar is null)
+            if (string.IsNullOrEmpty(passwordAValidar))
             {
                 throw new ArgumentNullException("La contraseña no puede ser nula");
             }
@@ -108,7 +115,7 @@ namespace Entidades
             }
         }
 
-        private static bool ValidarContieneMinus(string password)
+        public static bool ValidarContieneMinus(string password)
         {
             char[] passwordArray = password.ToArray();
 
@@ -121,7 +128,7 @@ namespace Entidades
             }
             return false;
         }
-        private static bool ValidarContieneMayus(string password)
+        public static bool ValidarContieneMayus(string password)
         {
             char[] passwordArray = password.ToArray();
 
@@ -135,7 +142,7 @@ namespace Entidades
             return false;
         }
 
-        private static bool ValidarContieneNumerico(string password)
+        public static bool ValidarContieneNumerico(string password)
         {
             char[] passwordArray = password.ToArray();
 
@@ -149,13 +156,13 @@ namespace Entidades
             return false;
         }
 
-        private static bool ValidarContieneSimbolo(string password)
+        public static bool ValidarContieneSimbolo(string password)
         {
             char[] passwordArray = password.ToArray();
 
             foreach (char item in passwordArray)
             {
-                if (item > 32 && item < 127 && !Char.IsDigit(item) && !Char.IsUpper(item))
+                if ((!Char.IsDigit(item) && !Char.IsUpper(item) && !Char.IsLower(item)) && item > 32 && item < 127)
                 {
                     return true;
                 }

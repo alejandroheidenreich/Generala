@@ -46,5 +46,10 @@ namespace Interfaz
             this.lbl_mensajeDeError.Visible = true;
             this.lbl_mensajeDeError.Text = msj;
         }
+
+        private void btn_Salir_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -16,26 +16,22 @@ namespace Entidades
 
         public Jugador()
         {
-        }
-        public Jugador(string nombre)
-        {
             dados = new int[5];
+        }
+        public Jugador(string nombre):this()
+        {
             this.nombre = nombre;
-
-            //TODO: nombre invitado;
         }
 
         public Jugador(int id, string nombre):this(nombre)
         {
             this.id = id;
-
-
-            //TODO: nombre invitado;
         }
 
         public int[] Dados
         {
             get => dados;
+            set => dados = value;
         }
         public string Nombre
         {
@@ -83,16 +79,12 @@ namespace Entidades
             return sb.ToString();
         }
 
-        public int CalcularPuntaje()
-        {
-            return 0;
-        }
-
         public override bool Equals(object obj)
         {
             Jugador jugador = obj as Jugador; 
             return jugador is not null && this.id == jugador.Id;
         }
+
         public override string ToString()
         {
             return this.nombre;

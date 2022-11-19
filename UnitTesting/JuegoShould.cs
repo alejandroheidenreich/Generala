@@ -15,16 +15,180 @@ namespace Generala.Test
         [TestInitialize]
         public void Initialize()
         {
-            jugador = new Jugador("Ale");
+            jugador = new Jugador("Roberto");
             juego = new Juego(jugador);
         }
 
-        //TODO: VER
-        //[ClassInitialize]
-        //public void Clasecita()
-        //{
+        [DataRow(1, 2, 3, 4, 5, "Escalera")]
+        [DataRow(2, 2, 1, 1, 1, "Full")]
+        [DataRow(3, 3, 3, 3, 3, "Generala")]
+        [DataRow(2, 4, 4, 4, 4, "Poker")]
+        [TestMethod]
+        public void RealizarJuego_Test(int n1, int n2, int n3, int n4, int n5, string resultado)
+        {
+            int[] dados = { n1, n2, n3, n4, n5 };
+            juego.Jugador.Dados = dados;
 
-        //}
+            juego.RealizarJuego(resultado);
+
+            Assert.AreEqual(juego.Juegos[resultado], EstadoJuego.Realizado);
+        }
+
+        [DataRow(1, 2, 3, 4, 5, "Escalera")]
+        [DataRow(2, 2, 1, 1, 1, "Full")]
+        [DataRow(3, 3, 3, 3, 3, "Generala")]
+        [DataRow(2, 4, 4, 4, 4, "Poker")]
+        [TestMethod]
+        public void RealizarJuegoCuandoNoEstaDisponibleElJuego_Test(int n1, int n2, int n3, int n4, int n5, string resultado)
+        {
+            Dictionary<string, EstadoJuego> juegosTest = new Dictionary<string, EstadoJuego>()
+            {
+                {"Al 1",EstadoJuego.Tachado},
+                {"Al 2",EstadoJuego.Realizado},
+                {"Al 3",EstadoJuego.Tachado},
+                {"Al 4",EstadoJuego.Realizado},
+                {"Al 5",EstadoJuego.Tachado},
+                {"Al 6",EstadoJuego.Realizado},
+                {"Escalera",EstadoJuego.Tachado},
+                {"Full",EstadoJuego.Realizado},
+                {"Poker",EstadoJuego.Tachado},
+                {"Generala",EstadoJuego.Realizado},
+            };
+            int[] dados = { n1, n2, n3, n4, n5 };
+            juego.Jugador.Dados = dados;
+            juego.Juegos = juegosTest;
+
+            Assert.ThrowsException<Exception>(() =>
+            {
+                juego.RealizarJuego(resultado);
+            });
+            
+        }
+
+        [DataRow("Escalera")]
+        [DataRow("Full")]
+        [DataRow("Generala")]
+        [DataRow("Poker")]
+        [TestMethod]
+        public void TacharJuego_Test(string resultado)
+        {
+            juego.TacharJuego(resultado);
+
+            Assert.AreEqual(juego.Juegos[resultado], EstadoJuego.Tachado);
+        }
+
+        [DataRow("Escalera")]
+        [DataRow("Full")]
+        [DataRow("Generala")]
+        [DataRow("Poker")]
+        [TestMethod]
+        public void TacharJuegoCuandoNoEstaDisponibleElJuego_Test(string resultado)
+        {
+            Dictionary<string, EstadoJuego> juegosTest = new Dictionary<string, EstadoJuego>()
+            {
+                {"Al 1",EstadoJuego.Tachado},
+                {"Al 2",EstadoJuego.Realizado},
+                {"Al 3",EstadoJuego.Tachado},
+                {"Al 4",EstadoJuego.Realizado},
+                {"Al 5",EstadoJuego.Tachado},
+                {"Al 6",EstadoJuego.Realizado},
+                {"Escalera",EstadoJuego.Tachado},
+                {"Full",EstadoJuego.Realizado},
+                {"Poker",EstadoJuego.Tachado},
+                {"Generala",EstadoJuego.Realizado},
+            };
+            juego.Juegos = juegosTest;
+
+            Assert.ThrowsException<Exception>(() =>
+            {
+                juego.RealizarJuego(resultado);
+            });
+
+        }
+
+
+        [DataRow(2, 2, 1, 1, 1, "Full", "Al 2", "Al 1")]
+        [DataRow(2, 4, 4, 4, 4, "Poker", "Al 4", "Al 2")]
+        [TestMethod]
+        public void EncontrarJuego_Test(int n1, int n2, int n3, int n4, int n5, string resultadoUno, string resultadoDos, string resultadoTres)
+        {
+            int[] dados = { n1, n2, n3, n4, n5 };
+            juego.Jugador.Dados = dados;
+
+            List<string> juegosEncontrados = juego.EncontrarJuegos();
+
+            Assert.IsNotNull(juegosEncontrados);
+            Assert.IsTrue(juegosEncontrados.Contains(resultadoUno) && juegosEncontrados.Contains(resultadoDos) && juegosEncontrados.Contains(resultadoTres));
+        }
+
+        [DataRow(1, 2, 3, 4, 5, "Escalera", 20)]
+        [DataRow(2, 2, 1, 1, 1, "Full", 30)]
+        [DataRow(3, 3, 3, 3, 3, "Generala", 60)]
+        [DataRow(2, 4, 4, 4, 4, "Poker", 40)]
+        [TestMethod]
+        public void AcumularPuntaje_Test(int n1, int n2, int n3, int n4, int n5, string resultado, int puntaje)
+        {
+            int[] dados = { n1, n2, n3, n4, n5 };
+            juego.Jugador.Dados = dados;
+
+            juego.AcumularPuntaje(resultado);
+
+            Assert.AreEqual(juego.PuntajeTotal, puntaje);
+        }
+
+        [DataRow(1, 2, 3, 4, 5, "Escalera")]
+        [DataRow(2, 2, 1, 1, 1, "Full")]
+        [DataRow(2, 2, 3, 3, 5, "")]
+        [DataRow(2, 4, 4, 4, 4, "Poker")]
+        [TestMethod]
+        public void TieneJuegoImportante_Test(int n1, int n2, int n3, int n4, int n5, string juegoEsperado)
+        {
+            int[] dados = { n1, n2, n3, n4, n5 };
+            juego.Jugador.Dados = dados;
+
+            string juegoImportante = juego.TieneJuegoImportante();
+
+            Assert.AreEqual(juegoImportante, juegoEsperado);
+        }
+
+        [DataRow(1, 4, 4, 2, 5, "Al 4")]
+        [DataRow(2, 1, 5, 5, 5, "Al 5")]
+        [DataRow(2, 2, 3, 3, 1, "Al 3")]
+        [DataRow(1, 1, 1, 2, 6, "Al 6")]
+        [TestMethod]
+        public void ElegirMejorJugadaAlNumero_Test(int n1, int n2, int n3, int n4, int n5, string juegoEsperado)
+        {
+            int[] dados = { n1, n2, n3, n4, n5 };
+            juego.Jugador.Dados = dados;
+
+            string juegoElegido = juego.ElegirMejorJugadaAlNumero();
+
+            Assert.AreEqual(juegoElegido, juegoEsperado);
+        }
+
+
+        [TestMethod]
+        public void TacharLaMasDificil_Test()
+        {
+            Dictionary<string, EstadoJuego> juegosTest = new Dictionary<string, EstadoJuego>()
+            {
+                {"Al 1",EstadoJuego.Tachado},
+                {"Al 2",EstadoJuego.Realizado},
+                {"Al 3",EstadoJuego.Tachado},
+                {"Al 4",EstadoJuego.Realizado},
+                {"Al 5",EstadoJuego.Tachado},
+                {"Al 6",EstadoJuego.Realizado},
+                {"Escalera",EstadoJuego.Tachado},
+                {"Full",EstadoJuego.Realizado},
+                {"Poker",EstadoJuego.Disponible},
+                {"Generala",EstadoJuego.Realizado},
+            };
+            juego.Juegos = juegosTest;
+
+            string juegoTachado = juego.TacharLaMasDificil();
+
+            Assert.AreEqual(juegoTachado, "Poker");
+        }
 
         [DataRow(1, 1, 1, 1, 1, 2, 0)]
         [DataRow(2, 2, 1, 1, 1, 2, 4)]
@@ -224,47 +388,6 @@ namespace Generala.Test
             {
                 juego.Generala(dados);
             });
-        }
-
-
-        [TestMethod]
-        public void ElegirMejorJugada_Test()
-        {
-            int[] dados;
-
-            this.juego.Jugador.TirarDados();
-
-            dados = this.juego.Jugador.Dados;
-
-            Console.WriteLine($"Dados: {this.juego.Jugador}   Mejor: {this.juego.ElegirMejorJugada()}");
-        }
-
-        [TestMethod]
-        public void TacharLaMasDificil_Test()
-        {
-            Dictionary<string, EstadoJuego> juegos = new Dictionary<string, EstadoJuego>()
-            {
-                {"Al 1",EstadoJuego.Disponible},
-                {"Al 2",EstadoJuego.Disponible},
-                {"Al 3",EstadoJuego.Disponible},
-                {"Al 4",EstadoJuego.Disponible},
-                {"Al 5",EstadoJuego.Tachado},
-                {"Al 6",EstadoJuego.Disponible},
-                {"Escalera",EstadoJuego.Disponible},
-                {"Full",EstadoJuego.Disponible},
-                {"Poker",EstadoJuego.Realizado},
-                {"Generala",EstadoJuego.Realizado},
-            };
-
-            this.juego.Juegos = juegos;
-
-            this.juego.TacharLaMasDificil();
-
-
-            Console.WriteLine($"Antes: {juegos["Full"]}   Despues: {this.juego.Juegos["Full"]}");
-
-
-            Assert.IsTrue(juego.Juegos["Full"] == EstadoJuego.Tachado);
         }
 
     }

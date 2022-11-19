@@ -13,7 +13,8 @@ namespace Interfaz
 {
     public partial class FrmLogIn : Form
     {
-        Sistema sistema;
+        Sistema? sistema;
+        BaseDeDatos? db;
         private bool mouseAccion;
         private int mousePosX;
         private int mousePosY;
@@ -26,6 +27,7 @@ namespace Interfaz
         private void FrmLogIn_Load(object sender, EventArgs e)
         {
             this.sistema = new Sistema();
+            this.db = new BaseDeDatos();
         }
 
         private void btn_Ingresar_Click(object sender, EventArgs e)
@@ -42,7 +44,7 @@ namespace Interfaz
             {
                 try
                 {
-                    if (this.sistema.VerificarUsuarioContrasenia(txt_usuario.Text, txt_contrasenia.Text))
+                    if (this.sistema!.VerificarUsuarioContrasenia(txt_usuario.Text, txt_contrasenia.Text))
                     {
                         FrmMenuPrincipal menuPrincipal = new FrmMenuPrincipal();
                         menuPrincipal.Show();
@@ -55,9 +57,17 @@ namespace Interfaz
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"No es valido: {ex.Message} es este");
+                    InformarErrorFatal(ex);
                 }
 
+            }
+        }
+        private static void InformarErrorFatal(Exception ex)
+        {
+            DialogResult respuesta = MessageBox.Show($"{ex.Message}. El programa se cerrara", "Error Fatal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (respuesta == DialogResult.OK)
+            {
+                Application.Exit();
             }
         }
 

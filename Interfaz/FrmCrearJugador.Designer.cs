@@ -32,8 +32,8 @@
             this.btn_Crear = new System.Windows.Forms.Button();
             this.lbl_mensajeDeError = new System.Windows.Forms.Label();
             this.pnl_Fondo = new System.Windows.Forms.Panel();
-            this.btn_Salir = new System.Windows.Forms.Button();
             this.txt_Nombre = new System.Windows.Forms.TextBox();
+            this.btn_Salir = new System.Windows.Forms.Button();
             this.pnl_Fondo.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,6 +78,18 @@
             this.pnl_Fondo.Size = new System.Drawing.Size(387, 264);
             this.pnl_Fondo.TabIndex = 42;
             // 
+            // txt_Nombre
+            // 
+            this.txt_Nombre.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.txt_Nombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.txt_Nombre.ForeColor = System.Drawing.SystemColors.Window;
+            this.txt_Nombre.Location = new System.Drawing.Point(82, 67);
+            this.txt_Nombre.Name = "txt_Nombre";
+            this.txt_Nombre.PlaceholderText = "NOMBRE";
+            this.txt_Nombre.Size = new System.Drawing.Size(219, 22);
+            this.txt_Nombre.TabIndex = 38;
+            this.txt_Nombre.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // btn_Salir
             // 
             this.btn_Salir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
@@ -93,18 +105,7 @@
             this.btn_Salir.TabIndex = 37;
             this.btn_Salir.Text = "X";
             this.btn_Salir.UseVisualStyleBackColor = false;
-            // 
-            // txt_Nombre
-            // 
-            this.txt_Nombre.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.txt_Nombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.txt_Nombre.ForeColor = System.Drawing.SystemColors.Window;
-            this.txt_Nombre.Location = new System.Drawing.Point(82, 67);
-            this.txt_Nombre.Name = "txt_Nombre";
-            this.txt_Nombre.PlaceholderText = "NOMBRE";
-            this.txt_Nombre.Size = new System.Drawing.Size(219, 22);
-            this.txt_Nombre.TabIndex = 38;
-            this.txt_Nombre.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.btn_Salir.Click += new System.EventHandler(this.btn_Salir_Click);
             // 
             // FrmCrearJugador
             // 
@@ -117,6 +118,7 @@
             this.Controls.Add(this.lbl_mensajeDeError);
             this.Controls.Add(this.pnl_Fondo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmCrearJugador";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmCrearJugador";
